@@ -1,5 +1,5 @@
 import { Properties, PropertyCity } from '../../types/property';
-import {useRef, useEffect, useMemo} from 'react';
+import {useRef, useEffect} from 'react';
 import {Marker, Icon, LayerGroup} from 'leaflet';
 import useMap from '../../hooks/use-map';
 import 'leaflet/dist/leaflet.css';
@@ -19,14 +19,22 @@ type MapProps = {
 export default function Map({currentCity, currentProperties, containerClassName}: MapProps): JSX.Element {
   const {location: cityLocation} = currentCity;
   const mapRef = useRef(null);
-  const markerGroup = useMemo(() => new LayerGroup(), []);
-  const markerGroupRef = useRef(markerGroup);
   const map = useMap(mapRef, cityLocation);
 
   useEffect(() => {
     if (map) {
-      markerGroupRef.current.clearLayers();
-      markerGroup.addTo(map);
+      map.setView({
+        lat: cityLocation.latitude,
+        lng: cityLocation.longitude
+      });
+    }
+  }, [map, cityLocation]);
+
+  useEffect(() => {
+    const layerGroup = new LayerGroup();
+
+    if (map) {
+      layerGroup.addTo(map);
 
       currentProperties.forEach(({location: point}) => {
         const marker = new Marker({
@@ -34,19 +42,20 @@ export default function Map({currentCity, currentProperties, containerClassName}
           lng: point.longitude
         });
         marker.setIcon(defaultCustomIcon)
-          .addTo(markerGroup);
+          .addTo(layerGroup);
       });
-
-      markerGroupRef.current = markerGroup;
     }
-  }, [map, currentProperties, markerGroup]);
+
+    return () => {
+      map?.removeLayer(layerGroup);
+    };
+  }, [map, currentProperties]);
 
   return (
     <section
       className={`${containerClassName} map`}
       style={{height: '100%'}}
       ref={mapRef}
-    >
-    </section>
+    />
   );
 }

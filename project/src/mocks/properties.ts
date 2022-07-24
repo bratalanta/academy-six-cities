@@ -37,7 +37,7 @@ export const properties: Properties = [
     price: 120,
     rating: 3.8,
     title: 'Beautiful & at great location',
-    type: 'apartment'
+    type: 'Apartment'
   },
   {
     bedrooms: 3,
@@ -75,7 +75,7 @@ export const properties: Properties = [
     price: 240,
     rating: 1.8,
     title: ' & luxurious great location',
-    type: 'private room'
+    type: 'Private room'
   },
   {
     bedrooms: 3,
@@ -113,7 +113,7 @@ export const properties: Properties = [
     price: 360,
     rating: 0.8,
     title: 'cation',
-    type: 'hotel'
+    type: 'Hotel'
   },
   {
     bedrooms: 3,
@@ -151,6 +151,6 @@ export const properties: Properties = [
     price: 480,
     rating: 2.8,
     title: 'luxurious great',
-    type: 'apartment'
+    type: 'Apartment'
   }
 ];

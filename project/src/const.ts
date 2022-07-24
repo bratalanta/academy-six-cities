@@ -27,7 +27,7 @@ export const CardImageSize = {
   }
 } as const;
 
-const zoom = 13;
+const zoom = 10;
 
 export const DEFAULT_CITY = {
   name: 'Amsterdam',
