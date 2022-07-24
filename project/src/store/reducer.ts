@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { properties } from '../mocks/properties';
 import { Properties, PropertyCity } from '../types/property';
-import { setProperties } from './action';
+import { setCity, setProperties } from './action';
 
 type InititalState = {
   city: PropertyCity
@@ -23,5 +23,8 @@ export const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(setProperties, (state, {payload}) => {
       state.properties = payload.properties;
+    })
+    .addCase(setCity, (state, {payload}) => {
+      state.city = payload.city;
     });
 });
