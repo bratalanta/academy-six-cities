@@ -35,4 +35,9 @@ export type Property = {
   type: string;
 };
 
+export type GroupedProperties = {
+  [key: string]: Properties;
+}
+
 export type Properties = Property[];
+export type PropertyCities = PropertyCity[];

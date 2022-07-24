@@ -2,14 +2,10 @@ import Logo from '../../components/logo/logo';
 import PropertyList from '../../components/property-list/property-list';
 import UserProfile from '../../components/user-profile/user-profile';
 import { CardClassName } from '../../const';
-import { Properties } from '../../types/property';
+import { GroupedProperties, Properties } from '../../types/property';
 
 type FavoriteScreenProps = {
   favoriteProperties: Properties
-}
-
-type GroupedProperties = {
-  [key: string]: Properties;
 }
 
 export default function FavoritesScreen({favoriteProperties}: FavoriteScreenProps): JSX.Element {
