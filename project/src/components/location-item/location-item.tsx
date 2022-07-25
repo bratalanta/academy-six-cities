@@ -1,14 +1,13 @@
-import { DEFAULT_CITY } from '../../const';
 import cn from 'classnames';
 import { PropertyCity } from '../../types/property';
 
 type LocationItemProps = {
   city: PropertyCity;
-  onClick: (city: PropertyCity) => void;
+  clickHandler: (city: PropertyCity) => void;
   currentCity: PropertyCity;
 }
 
-export default function LocationItem({city = DEFAULT_CITY, onClick, currentCity = DEFAULT_CITY}: LocationItemProps): JSX.Element {
+export default function LocationItem({city, currentCity, clickHandler}: LocationItemProps): JSX.Element {
   const locationClassName = cn(
     'locations__item-link tabs__item',
     `${currentCity.name === city.name && 'tabs__item--active'}`
@@ -18,7 +17,7 @@ export default function LocationItem({city = DEFAULT_CITY, onClick, currentCity 
     <li className="locations__item">
       <a
         className={locationClassName}
-        onClick={() => onClick(city)}
+        onClick={() => clickHandler(city)}
       >
         <span>{city.name}</span>
       </a>

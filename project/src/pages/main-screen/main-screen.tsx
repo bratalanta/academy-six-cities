@@ -1,18 +1,19 @@
-import { useState } from 'react';
 import LocationItemList from '../../components/location-item-list/location-item-list';
 import Logo from '../../components/logo/logo';
 import Map from '../../components/map/map';
 import PropertyList from '../../components/property-list/property-list';
 import UserProfile from '../../components/user-profile/user-profile';
-import { CardClassName, DEFAULT_CITY, MapContainerClassName } from '../../const';
-import { Properties, PropertyCity } from '../../types/property';
+import { CardClassName, MapContainerClassName } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { setCity } from '../../store/action';
+import { PropertyCity } from '../../types/property';
 
-type MainScreenProps = {
-  properties: Properties;
-}
+export default function MainScreen(): JSX.Element {
+  const currentCity = useAppSelector((state) => state.city);
+  const currentProperties = useAppSelector((state) => state.properties)
+    .filter(({city}) => currentCity.name === city.name);
 
-export default function MainScreen({properties}: MainScreenProps): JSX.Element {
-  const [currentCity, setCurrentCity] = useState<PropertyCity>(DEFAULT_CITY);
+  const dispatch = useAppDispatch();
 
   return (
     <div className="page page--gray page--main">
@@ -42,7 +43,10 @@ export default function MainScreen({properties}: MainScreenProps): JSX.Element {
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              <LocationItemList currentCity={currentCity} onClick={(city: PropertyCity) => setCurrentCity(city)}/>
+              <LocationItemList
+                currentCity={currentCity}
+                clickHandler={(city: PropertyCity) => dispatch(setCity(city))}
+              />
             </ul>
           </section>
         </div>
@@ -50,7 +54,9 @@ export default function MainScreen({properties}: MainScreenProps): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
+              <b className="places__found">
+                {currentProperties.length} places to stay in {currentCity.name}
+              </b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -78,14 +84,14 @@ export default function MainScreen({properties}: MainScreenProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <PropertyList properties={properties} cardClassName={CardClassName.Cities}/>
+                <PropertyList properties={currentProperties} cardClassName={CardClassName.Cities}/>
               </div>
             </section>
             <div className="cities__right-section">
               <Map
                 containerClassName={MapContainerClassName.City}
                 currentCity={currentCity}
-                currentProperties={properties.filter(({city}) => currentCity.name === city.name)}
+                currentProperties={currentProperties}
               />
             </div>
           </div>
