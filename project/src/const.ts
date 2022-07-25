@@ -30,28 +30,28 @@ export const CardImageSize = {
 const zoom = 10;
 
 export const DEFAULT_CITY = {
-  name: 'Amsterdam',
+  name: 'Paris',
   location: {
-    latitude: 52.37454,
-    longitude: 4.897976,
+    latitude: 48.85661,
+    longitude: 2.351499,
     zoom
   }
 } as const;
 
 export const Cities = [
   {
-    name: 'Amsterdam',
-    location: {
-      latitude: 52.37454,
-      longitude: 4.897976,
-      zoom
-    }
-  },
-  {
     name: 'Paris',
     location: {
       latitude: 48.85661,
       longitude: 2.351499,
+      zoom
+    }
+  },
+  {
+    name: 'Amsterdam',
+    location: {
+      latitude: 52.37454,
+      longitude: 4.897976,
       zoom
     }
   },

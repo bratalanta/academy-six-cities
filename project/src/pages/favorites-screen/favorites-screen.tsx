@@ -2,13 +2,13 @@ import Logo from '../../components/logo/logo';
 import PropertyList from '../../components/property-list/property-list';
 import UserProfile from '../../components/user-profile/user-profile';
 import { CardClassName } from '../../const';
-import { GroupedProperties, Properties } from '../../types/property';
+import { useAppSelector } from '../../hooks';
+import { GroupedProperties } from '../../types/property';
 
-type FavoriteScreenProps = {
-  favoriteProperties: Properties
-}
+export default function FavoritesScreen(): JSX.Element {
+  const favoriteProperties = useAppSelector((state) => state.properties)
+    .filter(({isFavorite}) => isFavorite);
 
-export default function FavoritesScreen({favoriteProperties}: FavoriteScreenProps): JSX.Element {
   const groupedProperties = favoriteProperties.reduce<GroupedProperties>(
     (acc, property) => {
       const {city} = property;
