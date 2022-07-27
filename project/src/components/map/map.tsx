@@ -7,8 +7,13 @@ import { MapContainerClassName } from '../../const';
 
 const defaultCustomIcon = new Icon({
   iconUrl: 'img/pin.svg',
-  iconAnchor: [19.5, 39]
+  iconAnchor: [13.5, 39]
 });
+
+// const activeCustomIcon = new Icon({
+//   iconUrl: 'img/active-pin.svg',
+//   iconAnchor: [13.5, 39]
+// });
 
 type MapProps = {
   currentCity: PropertyCity;

@@ -94,3 +94,10 @@ export const enum MapContainerClassName {
   City = 'cities__map',
   Property = 'property__map'
 }
+
+export const SortOption = {
+  POPULAR: 'Popular',
+  TOP_RATED: 'Top rated first',
+  LOW_TO_HIGH: 'Price: low to high',
+  HIGH_TO_LOW: 'Price: high to low'
+} as const;

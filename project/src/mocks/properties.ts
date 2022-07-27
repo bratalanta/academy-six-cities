@@ -5,6 +5,44 @@ export const properties: Properties = [
     bedrooms: 3,
     city: {
       location: {
+        latitude: 48.843610000000005,
+        longitude: 2.338499,
+        zoom: 16
+      },
+      name: 'Paris'
+    },
+    description: 'A quiet Amsterdam.',
+    goods: [
+      'Heating'
+    ],
+    host: {
+      avatarUrl: 'img/1.png',
+      id: 3,
+      isPro: true,
+      name: 'Angelina'
+    },
+    id: 5,
+    images: [
+      'img/2.png'
+    ],
+    isFavorite: true,
+    isPremium: true,
+    location: {
+      latitude: 48.843610000000005,
+      longitude: 2.348499,
+      zoom: 16
+    },
+    maxAdults: 4,
+    previewImage: 'img/apartment-02.jpg',
+    price: 540,
+    rating: 3.8,
+    title: 'sddadsadadn',
+    type: 'Private room'
+  },
+  {
+    bedrooms: 3,
+    city: {
+      location: {
         latitude: 52.370216,
         longitude: 4.895168,
         zoom: 10
