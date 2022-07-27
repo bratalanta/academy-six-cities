@@ -14,7 +14,9 @@ export default function SortOptions({ currentProperties, currentCity }: SortOpti
   const [selectedSortOption, setSelectedSortOption] = useState<OptionValue>(SortOption.POPULAR);
   const sortListRef = useRef<HTMLUListElement>(null);
 
-  useEffect(() => () => setSelectedSortOption(SortOption.POPULAR), [currentCity]);
+  useEffect(() => (
+    () => setSelectedSortOption(SortOption.POPULAR)
+  ), [currentCity]);
 
   const sortProperties = (option: OptionValue) => {
     switch (option) {

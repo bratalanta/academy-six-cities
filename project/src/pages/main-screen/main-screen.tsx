@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setCity } from '../../store/action';
 import { PropertyCity } from '../../types/property';
 import SortOptions from '../../components/sort-options/sort-options';
+import { useState } from 'react';
 
 export default function MainScreen(): JSX.Element {
   const currentCity = useAppSelector((state) => state.city);
@@ -15,6 +16,8 @@ export default function MainScreen(): JSX.Element {
     .filter(({city}) => currentCity.name === city.name);
 
   const dispatch = useAppDispatch();
+
+  const [activeCardId, setActiveCardId] = useState<number | null>(null);
 
   return (
     <div className="page page--gray page--main">
@@ -62,6 +65,8 @@ export default function MainScreen(): JSX.Element {
                 <PropertyList
                   properties={currentProperties}
                   cardClassName={CardClassName.Cities}
+                  onCardMouseEnter={(id: number) => setActiveCardId(id)}
+                  onCardMouseLeave={() => setActiveCardId(null)}
                 />
               </div>
             </section>
@@ -70,6 +75,7 @@ export default function MainScreen(): JSX.Element {
                 containerClassName={MapContainerClassName.City}
                 currentCity={currentCity}
                 currentProperties={currentProperties}
+                activeCardId={activeCardId}
               />
             </div>
           </div>

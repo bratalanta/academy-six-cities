@@ -7,18 +7,16 @@ const ONE_STAR_PERCENTAGE = 100 / 5;
 type PropertyCardProps = {
   property: Property;
   cardClassName: CardClassName;
-  onMouseEnter?: () => void;
-  onMouseLeave?: () => void;
-  activeCardId: number | null;
+  onCardMouseEnter?: (id: number) => void;
+  onCardMouseLeave?: () => void;
 };
 
 export default function PropertyCard(props: PropertyCardProps): JSX.Element {
   const {
     property,
     cardClassName,
-    activeCardId,
-    onMouseEnter,
-    onMouseLeave} = props;
+    onCardMouseEnter,
+    onCardMouseLeave} = props;
   const {
     id,
     isPremium,
@@ -30,20 +28,20 @@ export default function PropertyCard(props: PropertyCardProps): JSX.Element {
 
   const getRatingPercentage = (): string => `${rating * ONE_STAR_PERCENTAGE}%`;
 
-  const getActivatedCardBorderStyle = () => {
-    if (activeCardId === id) {
-      return {
-        border: '1px solid black'
-      };
-    }
-  };
+  // const getActivatedCardBorderStyle = () => {
+  //   if (activeCardId === id) {
+  //     return {
+  //       border: '1px solid black'
+  //     };
+  //   }
+  // };
 
   return (
     <article
       className={`${cardClassName}__card place-card`}
-      onMouseEnter={() => onMouseEnter?.()}
-      onMouseLeave={() => onMouseLeave?.()}
-      style={getActivatedCardBorderStyle()}
+      onMouseEnter={() => onCardMouseEnter?.(id)}
+      onMouseLeave={() => onCardMouseLeave?.()}
+      // style={getActivatedCardBorderStyle()}
     >
       {isPremium &&
       <div className="place-card__mark">

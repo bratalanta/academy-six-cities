@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { CardClassName } from '../../const';
 import { Properties } from '../../types/property';
 import PropertyCard from '../property-card/property-card';
@@ -6,10 +5,11 @@ import PropertyCard from '../property-card/property-card';
 type PropertyListProps = {
   properties: Properties;
   cardClassName: CardClassName;
+  onCardMouseEnter?: (id: number) => void;
+  onCardMouseLeave?: () => void;
 }
 
-export default function PropertyList({properties, cardClassName}: PropertyListProps): JSX.Element {
-  const [activeCardId, setActiveCardId] = useState<number | null>(null);
+export default function PropertyList({properties, cardClassName, onCardMouseEnter, onCardMouseLeave}: PropertyListProps): JSX.Element {
 
   return (
     <>
@@ -17,10 +17,9 @@ export default function PropertyList({properties, cardClassName}: PropertyListPr
         <PropertyCard
           key={property.id}
           property={property}
-          activeCardId={activeCardId}
-          onMouseEnter={() => setActiveCardId(property.id)}
-          onMouseLeave={() => setActiveCardId(null)}
           cardClassName={cardClassName}
+          onCardMouseEnter={onCardMouseEnter}
+          onCardMouseLeave={onCardMouseLeave}
         />
       )
       )}
