@@ -55,7 +55,7 @@ export default function Map({currentCity, currentProperties, containerClassName,
     return () => {
       map?.removeLayer(layerGroup);
     };
-  }, [map, currentProperties]);
+  }, [map, currentProperties, activeCardId]);
 
   return (
     <section

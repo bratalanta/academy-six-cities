@@ -6,7 +6,7 @@ import UserProfile from '../../components/user-profile/user-profile';
 import { CardClassName, MapContainerClassName } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setCity } from '../../store/action';
-import { PropertyCity } from '../../types/property';
+import { Properties, PropertyCity } from '../../types/property';
 import SortOptions from '../../components/sort-options/sort-options';
 import { useState } from 'react';
 
@@ -14,10 +14,10 @@ export default function MainScreen(): JSX.Element {
   const currentCity = useAppSelector((state) => state.city);
   const currentProperties = useAppSelector((state) => state.properties)
     .filter(({city}) => currentCity.name === city.name);
-
   const dispatch = useAppDispatch();
 
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
+  const [sortedProperties, setSortedProperties] = useState<Properties>(currentProperties);
 
   return (
     <div className="page page--gray page--main">
@@ -48,6 +48,7 @@ export default function MainScreen(): JSX.Element {
           currentCity={currentCity}
           onLocationItemClick={(city: PropertyCity) => {
             dispatch(setCity(city));
+            setSortedProperties(currentProperties);
           }}
         />
         <div className="cities">
@@ -58,12 +59,13 @@ export default function MainScreen(): JSX.Element {
                 {currentProperties.length} places to stay in {currentCity.name}
               </b>
               <SortOptions
-                currentProperties={currentProperties}
+                sortedProperties={sortedProperties}
                 currentCity={currentCity}
+                setSortedProperties={setSortedProperties}
               />
               <div className="cities__places-list places__list tabs__content">
                 <PropertyList
-                  properties={currentProperties}
+                  properties={sortedProperties}
                   cardClassName={CardClassName.Cities}
                   onCardMouseEnter={(id: number) => setActiveCardId(id)}
                   onCardMouseLeave={() => setActiveCardId(null)}
@@ -74,7 +76,7 @@ export default function MainScreen(): JSX.Element {
               <Map
                 containerClassName={MapContainerClassName.City}
                 currentCity={currentCity}
-                currentProperties={currentProperties}
+                currentProperties={sortedProperties}
                 activeCardId={activeCardId}
               />
             </div>

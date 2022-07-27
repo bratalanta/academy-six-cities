@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { SortOption } from '../../const';
 import { Properties, PropertyCity } from '../../types/property';
 import { OptionValue } from '../../types/sort';
@@ -6,28 +6,33 @@ import SortOptionItem from '../sort-option-item/sort-option-item';
 import { sortByHighToLow, sortByLowToHigh, sortByTopRated } from './helper';
 
 type SortOptionsProps = {
-  currentProperties: Properties;
+  sortedProperties: Properties;
   currentCity: PropertyCity;
+  setSortedProperties: Dispatch<SetStateAction<Properties>>;
 };
 
-export default function SortOptions({ currentProperties, currentCity }: SortOptionsProps) {
-  const [selectedSortOption, setSelectedSortOption] = useState<OptionValue>(SortOption.POPULAR);
+export default function SortOptions({ sortedProperties, currentCity, setSortedProperties }: SortOptionsProps) {
   const sortListRef = useRef<HTMLUListElement>(null);
+  const [selectedSortOption, setSelectedSortOption] = useState<OptionValue>(SortOption.POPULAR);
 
   useEffect(() => (
     () => setSelectedSortOption(SortOption.POPULAR)
   ), [currentCity]);
 
   const sortProperties = (option: OptionValue) => {
+    const properties = [...sortedProperties];
     switch (option) {
       case SortOption.HIGH_TO_LOW:
-        return currentProperties.sort(sortByHighToLow);
+        properties.sort(sortByHighToLow);
+        return setSortedProperties(properties);
       case SortOption.LOW_TO_HIGH:
-        return currentProperties.sort(sortByLowToHigh);
+        properties.sort(sortByLowToHigh);
+        return setSortedProperties(properties);
       case SortOption.TOP_RATED:
-        return currentProperties.sort(sortByTopRated);
+        properties.sort(sortByTopRated);
+        return setSortedProperties(properties);
       case SortOption.POPULAR:
-        return currentProperties;
+        return setSortedProperties(sortedProperties);
     }
   };
 
@@ -57,8 +62,8 @@ export default function SortOptions({ currentProperties, currentCity }: SortOpti
               option={option}
               selectedSortOption={selectedSortOption}
               onSortOptionClick={(value: OptionValue) => {
-                setSelectedSortOption(value);
                 sortProperties(value);
+                setSelectedSortOption(value);
                 sortListRef.current?.classList.remove('places__options--opened');
               }}
             />
