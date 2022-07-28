@@ -4,16 +4,20 @@ import Map from '../../components/map/map';
 import PropertyList from '../../components/property-list/property-list';
 import UserProfile from '../../components/user-profile/user-profile';
 import { CardClassName, MapContainerClassName } from '../../const';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setCity } from '../../store/action';
-import { PropertyCity } from '../../types/property';
+import { useAppSelector } from '../../hooks';
+import { useState } from 'react';
+import { sortProperties } from '../../components/sort-options-list/helper';
+import SortOptionsList from '../../components/sort-options-list/sort-options-list';
 
 export default function MainScreen(): JSX.Element {
   const currentCity = useAppSelector((state) => state.city);
-  const currentProperties = useAppSelector((state) => state.properties)
-    .filter(({city}) => currentCity.name === city.name);
+  const properties = useAppSelector((state) => state.properties);
+  const activeSortOption = useAppSelector((state) => state.activeSortOption);
 
-  const dispatch = useAppDispatch();
+  const [activeCardId, setActiveCardId] = useState<number | null>(null);
+
+  const currentProperties = properties.filter(({city}) => currentCity.name === city.name);
+  sortProperties(activeSortOption, currentProperties);
 
   return (
     <div className="page page--gray page--main">
@@ -40,16 +44,7 @@ export default function MainScreen(): JSX.Element {
       </header>
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <LocationItemList
-                currentCity={currentCity}
-                clickHandler={(city: PropertyCity) => dispatch(setCity(city))}
-              />
-            </ul>
-          </section>
-        </div>
+        <LocationItemList currentCity={currentCity}/>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
@@ -57,34 +52,17 @@ export default function MainScreen(): JSX.Element {
               <b className="places__found">
                 {currentProperties.length} places to stay in {currentCity.name}
               </b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width={7} height={4}>
-                    <use xlinkHref="#icon-arrow-select" />
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li
-                    className="places__option places__option--active"
-                    tabIndex={0}
-                  >
-                    Popular
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Price: low to high
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Price: high to low
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Top rated first
-                  </li>
-                </ul>
-              </form>
+              <SortOptionsList
+                currentCity={currentCity}
+                activeSortOption={activeSortOption}
+              />
               <div className="cities__places-list places__list tabs__content">
-                <PropertyList properties={currentProperties} cardClassName={CardClassName.Cities}/>
+                <PropertyList
+                  properties={currentProperties}
+                  cardClassName={CardClassName.Cities}
+                  onCardMouseEnter={(id: number) => setActiveCardId(id)}
+                  onCardMouseLeave={() => setActiveCardId(null)}
+                />
               </div>
             </section>
             <div className="cities__right-section">
@@ -92,6 +70,7 @@ export default function MainScreen(): JSX.Element {
                 containerClassName={MapContainerClassName.City}
                 currentCity={currentCity}
                 currentProperties={currentProperties}
+                activeCardId={activeCardId}
               />
             </div>
           </div>

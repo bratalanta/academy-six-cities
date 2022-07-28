@@ -1,13 +1,16 @@
 import cn from 'classnames';
+import { useAppDispatch } from '../../hooks';
+import { setCity } from '../../store/action';
 import { PropertyCity } from '../../types/property';
 
 type LocationItemProps = {
   city: PropertyCity;
-  clickHandler: (city: PropertyCity) => void;
   currentCity: PropertyCity;
 }
 
-export default function LocationItem({city, currentCity, clickHandler}: LocationItemProps): JSX.Element {
+export default function LocationItem({city, currentCity}: LocationItemProps): JSX.Element {
+  const dispatch = useAppDispatch();
+
   const locationClassName = cn(
     'locations__item-link tabs__item',
     `${currentCity.name === city.name && 'tabs__item--active'}`
@@ -17,7 +20,7 @@ export default function LocationItem({city, currentCity, clickHandler}: Location
     <li className="locations__item">
       <a
         className={locationClassName}
-        onClick={() => clickHandler(city)}
+        onClick={() => dispatch(setCity(city))}
       >
         <span>{city.name}</span>
       </a>
