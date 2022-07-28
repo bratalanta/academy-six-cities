@@ -26,8 +26,7 @@ export default function SortOptionsList({ activeSortOption, currentCity }: SortO
 
   useEffect(() => (
     () => {
-      setIsOptionsListOpened(false);
-      dispatch(setActiveSortOption(SortOption.POPULAR));
+      dispatch( setActiveSortOption(SortOption.POPULAR) );
     }
   ), [currentCity]);
 
@@ -53,7 +52,7 @@ export default function SortOptionsList({ activeSortOption, currentCity }: SortO
               activeSortOption={activeSortOption}
               onOptionClick={(o: OptionValue) => {
                 setIsOptionsListOpened(false);
-                dispatch(setActiveSortOption(o));
+                dispatch( setActiveSortOption(o) );
               }}
             />
           ))
