@@ -38,7 +38,7 @@ export const DEFAULT_CITY = {
   }
 } as const;
 
-export const Cities = [
+export const CITIES = [
   {
     name: 'Paris',
     location: {

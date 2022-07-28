@@ -1,11 +1,3 @@
-export type Price = {
-  price: number;
-}
-
-export type Rating = {
-  rating: number;
-}
-
 export type PropertyLocation = {
   latitude: number;
   longitude: number;

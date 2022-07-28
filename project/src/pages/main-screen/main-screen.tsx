@@ -4,20 +4,20 @@ import Map from '../../components/map/map';
 import PropertyList from '../../components/property-list/property-list';
 import UserProfile from '../../components/user-profile/user-profile';
 import { CardClassName, MapContainerClassName } from '../../const';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setCity } from '../../store/action';
-import { Properties, PropertyCity } from '../../types/property';
-import SortOptions from '../../components/sort-options/sort-options';
+import { useAppSelector } from '../../hooks';
 import { useState } from 'react';
+import { sortProperties } from '../../components/sort-options-list/helper';
+import SortOptionsList from '../../components/sort-options-list/sort-options-list';
 
 export default function MainScreen(): JSX.Element {
   const currentCity = useAppSelector((state) => state.city);
-  const currentProperties = useAppSelector((state) => state.properties)
-    .filter(({city}) => currentCity.name === city.name);
-  const dispatch = useAppDispatch();
+  const properties = useAppSelector((state) => state.properties);
+  const activeSortOption = useAppSelector((state) => state.activeSortOption);
 
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
-  const [sortedProperties, setSortedProperties] = useState<Properties>(currentProperties);
+
+  const currentProperties = properties.filter(({city}) => currentCity.name === city.name);
+  sortProperties(activeSortOption, currentProperties);
 
   return (
     <div className="page page--gray page--main">
@@ -44,13 +44,7 @@ export default function MainScreen(): JSX.Element {
       </header>
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <LocationItemList
-          currentCity={currentCity}
-          onLocationItemClick={(city: PropertyCity) => {
-            dispatch(setCity(city));
-            setSortedProperties(currentProperties);
-          }}
-        />
+        <LocationItemList currentCity={currentCity}/>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
@@ -58,14 +52,13 @@ export default function MainScreen(): JSX.Element {
               <b className="places__found">
                 {currentProperties.length} places to stay in {currentCity.name}
               </b>
-              <SortOptions
-                sortedProperties={sortedProperties}
+              <SortOptionsList
                 currentCity={currentCity}
-                setSortedProperties={setSortedProperties}
+                activeSortOption={activeSortOption}
               />
               <div className="cities__places-list places__list tabs__content">
                 <PropertyList
-                  properties={sortedProperties}
+                  properties={currentProperties}
                   cardClassName={CardClassName.Cities}
                   onCardMouseEnter={(id: number) => setActiveCardId(id)}
                   onCardMouseLeave={() => setActiveCardId(null)}
@@ -76,7 +69,7 @@ export default function MainScreen(): JSX.Element {
               <Map
                 containerClassName={MapContainerClassName.City}
                 currentCity={currentCity}
-                currentProperties={sortedProperties}
+                currentProperties={currentProperties}
                 activeCardId={activeCardId}
               />
             </div>
