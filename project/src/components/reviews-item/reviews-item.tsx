@@ -37,7 +37,7 @@ export default function ReviewsItem({review}: ReviewsItemProps) {
         <p className="reviews__text">
           {comment}
         </p>
-        <time className="reviews__time" dateTime={date}>
+        <time className="reviews__time" dateTime={getHumanizedDate(date, 'YYYY-MM-DD')}>
           {getHumanizedDate(date, 'MMMM YYYY')}
         </time>
       </div>

@@ -107,4 +107,4 @@ export const SortOption = {
   HIGH_TO_LOW: 'Price: high to low'
 } as const;
 
-export const ONE_STAR_PERCENTAGE = 100 / 5;
+export const MAX_REVIEW_RATING = 5;

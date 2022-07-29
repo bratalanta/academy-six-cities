@@ -4,6 +4,7 @@ import {Marker, Icon, LayerGroup} from 'leaflet';
 import useMap from '../../hooks/use-map';
 import 'leaflet/dist/leaflet.css';
 import { MapContainerClassName } from '../../const';
+import styles from '../map/map.module.css';
 
 const defaultCustomIcon = new Icon({
   iconUrl: 'img/pin.svg',
@@ -59,8 +60,7 @@ export default function Map({currentCity, properties, containerClassName, active
 
   return (
     <section
-      className={`${containerClassName} map`}
-      style={{maxWidth: '1000px', marginLeft: 'auto', marginRight: 'auto'}}
+      className={`${containerClassName} map ${styles.container}`}
     >
       <div
         style={{height: '100%'}}

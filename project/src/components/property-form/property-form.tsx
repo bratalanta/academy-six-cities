@@ -22,6 +22,9 @@ export default function PropertyForm() {
       rating: 0
     }
   );
+  const isSubmitDisabled = formData.comment.length <= CommentLength.Min ||
+    formData.comment.length >= CommentLength.Max ||
+    formData.rating === 0;
 
   const fieldChangeHandle = (name: string, value: number | string) => {
     setFormData({...formData, [name]: value});
@@ -60,11 +63,7 @@ export default function PropertyForm() {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={
-            formData.comment.length <= CommentLength.Min ||
-            formData.comment.length >= CommentLength.Max ||
-            formData.rating === 0
-          }
+          disabled={isSubmitDisabled}
         >
           Submit
         </button>

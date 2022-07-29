@@ -12,8 +12,8 @@ const REVIEWS_LIMIT = 10;
 
 export default function PropertyScreen(): JSX.Element {
   const reviews = useAppSelector((state) => state.reviews)
-    .slice(0, REVIEWS_LIMIT)
-    .sort(sortReviewsByDate);
+    .sort(sortReviewsByDate)
+    .slice(0, REVIEWS_LIMIT);
   const currentCity = useAppSelector((state) => state.city);
   const properties = useAppSelector((state) => state.properties)
     .filter(({city}) => currentCity.name === city.name);
