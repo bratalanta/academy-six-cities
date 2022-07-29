@@ -11,7 +11,8 @@ export default function ReviewsItem({review}: ReviewsItemProps) {
     comment,
     date,
     rating,
-    user} = review;
+    user
+  } = review;
 
   return (
     <li className="reviews__item">
