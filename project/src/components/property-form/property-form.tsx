@@ -61,8 +61,8 @@ export default function PropertyForm() {
           className="reviews__submit form__submit button"
           type="submit"
           disabled={
-            (formData.comment.length <= CommentLength.Min ||
-            formData.comment.length >= CommentLength.Max) &&
+            formData.comment.length <= CommentLength.Min ||
+            formData.comment.length >= CommentLength.Max ||
             formData.rating === 0
           }
         >

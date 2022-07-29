@@ -2,7 +2,7 @@ import cn from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 import { SortOption } from '../../const';
 import { useAppDispatch } from '../../hooks';
-import { useOnClickOutside } from '../../hooks/use-outside-click';
+import { useOutsideClick } from '../../hooks/use-outside-click';
 import { setActiveSortOption } from '../../store/action';
 import { PropertyCity } from '../../types/property';
 import { OptionValue } from '../../types/sort';
@@ -22,7 +22,7 @@ export default function SortOptionsList({ activeSortOption, currentCity }: SortO
   const sortRef = useRef(null);
   const dispatch = useAppDispatch();
 
-  useOnClickOutside(sortRef, () => setIsOptionsListOpened(false));
+  useOutsideClick(sortRef, () => setIsOptionsListOpened(false));
 
   useEffect(() => (
     () => {

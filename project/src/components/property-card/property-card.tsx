@@ -1,8 +1,7 @@
 import { generatePath, Link } from 'react-router-dom';
 import { AppRoute, CardClassName, CardImageSize} from '../../const';
 import { Property } from '../../types/property';
-
-const ONE_STAR_PERCENTAGE = 100 / 5;
+import { getRatingPercentage } from '../../utils';
 
 type PropertyCardProps = {
   property: Property;
@@ -26,22 +25,11 @@ export default function PropertyCard(props: PropertyCardProps): JSX.Element {
     title,
     type} = property;
 
-  const getRatingPercentage = (): string => `${rating * ONE_STAR_PERCENTAGE}%`;
-
-  // const getActivatedCardBorderStyle = () => {
-  //   if (activeCardId === id) {
-  //     return {
-  //       border: '1px solid black'
-  //     };
-  //   }
-  // };
-
   return (
     <article
       className={`${cardClassName}__card place-card`}
       onMouseEnter={() => onCardMouseEnter?.(id)}
       onMouseLeave={() => onCardMouseLeave?.()}
-      // style={getActivatedCardBorderStyle()}
     >
       {isPremium &&
       <div className="place-card__mark">
@@ -80,7 +68,7 @@ export default function PropertyCard(props: PropertyCardProps): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: getRatingPercentage() }} />
+            <span style={{ width: getRatingPercentage(rating) }} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

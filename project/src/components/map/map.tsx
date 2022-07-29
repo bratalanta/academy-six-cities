@@ -17,12 +17,12 @@ const activeCustomIcon = new Icon({
 
 type MapProps = {
   currentCity: PropertyCity;
-  currentProperties: Properties;
+  properties: Properties;
   containerClassName: MapContainerClassName;
-  activeCardId: null | number;
+  activeCardId?: null | number;
 };
 
-export default function Map({currentCity, currentProperties, containerClassName, activeCardId}: MapProps): JSX.Element {
+export default function Map({currentCity, properties, containerClassName, activeCardId}: MapProps): JSX.Element {
   const {location: cityLocation} = currentCity;
   const mapRef = useRef(null);
   const map = useMap(mapRef, cityLocation);
@@ -42,7 +42,7 @@ export default function Map({currentCity, currentProperties, containerClassName,
     if (map) {
       layerGroup.addTo(map);
 
-      currentProperties.forEach(({location: point, id}) => {
+      properties.forEach(({location: point, id}) => {
         const marker = new Marker({
           lat: point.latitude,
           lng: point.longitude
@@ -55,13 +55,17 @@ export default function Map({currentCity, currentProperties, containerClassName,
     return () => {
       map?.removeLayer(layerGroup);
     };
-  }, [map, currentProperties, activeCardId]);
+  }, [map, properties, activeCardId]);
 
   return (
     <section
       className={`${containerClassName} map`}
-      style={{height: '100%'}}
-      ref={mapRef}
-    />
+      style={{maxWidth: '1000px', marginLeft: 'auto', marginRight: 'auto'}}
+    >
+      <div
+        style={{height: '100%'}}
+        ref={mapRef}
+      />
+    </section>
   );
 }

@@ -13,7 +13,8 @@ export const enum AutorizationStatus {
 
 export const enum CardClassName {
   Favorites = 'favorites',
-  Cities = 'cities'
+  Cities = 'cities',
+  NearPlaces = 'near-places'
 }
 
 export const CardImageSize = {
@@ -22,6 +23,10 @@ export const CardImageSize = {
     height: 110
   },
   cities: {
+    width: 260,
+    height: 200
+  },
+  'near-places': {
     width: 260,
     height: 200
   }
@@ -101,3 +106,5 @@ export const SortOption = {
   LOW_TO_HIGH: 'Price: low to high',
   HIGH_TO_LOW: 'Price: high to low'
 } as const;
+
+export const ONE_STAR_PERCENTAGE = 100 / 5;
