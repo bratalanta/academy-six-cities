@@ -6,7 +6,7 @@ import UserProfile from '../../components/user-profile/user-profile';
 import { CardClassName, MapContainerClassName } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { useState } from 'react';
-import { sortProperties } from '../../components/sort-options-list/helper';
+import { getSortedProperties } from '../../components/sort-options-list/helper';
 import SortOptionsList from '../../components/sort-options-list/sort-options-list';
 
 export default function MainScreen(): JSX.Element {
@@ -17,7 +17,7 @@ export default function MainScreen(): JSX.Element {
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
 
   const currentProperties = properties.filter(({city}) => currentCity.name === city.name);
-  sortProperties(activeSortOption, currentProperties);
+  const currentSortedProperties = getSortedProperties(activeSortOption, currentProperties);
 
   return (
     <div className="page page--gray page--main">
@@ -58,7 +58,7 @@ export default function MainScreen(): JSX.Element {
               />
               <div className="cities__places-list places__list tabs__content">
                 <PropertyList
-                  properties={currentProperties}
+                  properties={currentSortedProperties}
                   cardClassName={CardClassName.Cities}
                   onCardMouseEnter={(id: number) => setActiveCardId(id)}
                   onCardMouseLeave={() => setActiveCardId(null)}
@@ -69,7 +69,7 @@ export default function MainScreen(): JSX.Element {
               <Map
                 containerClassName={MapContainerClassName.City}
                 currentCity={currentCity}
-                currentProperties={currentProperties}
+                properties={currentProperties}
                 activeCardId={activeCardId}
               />
             </div>

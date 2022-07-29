@@ -1,24 +1,26 @@
 import { MutableRefObject, useEffect } from 'react';
 
-export function useOnClickOutside(
+export function useOutsideClick(
   ref: MutableRefObject<HTMLElement | null>,
   handler: () => void
 ) {
   useEffect(
     () => {
-      const listener = (target: EventTarget | null) => {
+      const listener = (evt: MouseEvent | TouchEvent) => {
+        const {target} = evt;
+
         if (!ref.current || (target instanceof Element && ref.current.contains(target))) {
           return;
         }
 
         handler();
       };
-      document.addEventListener('mousedown', (evt) => listener(evt.target));
-      document.addEventListener('touchstart', (evt) => listener(evt.target));
+      document.addEventListener('mousedown', listener);
+      document.addEventListener('touchstart', listener);
 
       return () => {
-        document.removeEventListener('mousedown', (evt) => listener(evt.target));
-        document.removeEventListener('touchstart', (evt) => listener(evt.target));
+        document.removeEventListener('mousedown', listener);
+        document.removeEventListener('touchstart', listener);
       };
     },
     [ref, handler]

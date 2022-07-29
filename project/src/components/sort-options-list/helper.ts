@@ -8,7 +8,7 @@ export const sortByLowToHigh = (a: Property, b: Property) => a.price - b.price;
 
 export const sortByTopRated = (a: Property, b: Property) => b.rating - a.rating;
 
-export const sortProperties = (option: OptionValue, properties: Properties) => {
+export const getSortedProperties = (option: OptionValue, properties: Properties) => {
   switch (option) {
     case SortOption.HIGH_TO_LOW:
       return properties.sort(sortByHighToLow);
@@ -17,5 +17,6 @@ export const sortProperties = (option: OptionValue, properties: Properties) => {
     case SortOption.TOP_RATED:
       return properties.sort(sortByTopRated);
     case SortOption.POPULAR:
+      return properties;
   }
 };

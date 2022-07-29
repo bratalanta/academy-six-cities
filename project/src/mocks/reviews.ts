@@ -2,48 +2,48 @@ import { Reviews } from '../types/review';
 
 export const reviews: Reviews = [
   {
-    comment: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
+    comment: 'looks good and pretty comfortable',
     date: '2022-07-17T10:57:56.625Z',
     id: 1,
-    rating: 2,
+    rating: 4.5,
     user: {
-      avatarUrl: 'img/1.png',
+      avatarUrl: 'img/avatar-angelina.jpg',
       id: 1,
       isPro: false,
       name: 'Munn'
     }
   },
   {
-    comment: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
-    date: '2022-07-17T10:57:56.625Z',
-    id: 3,
+    comment: ' a a river.',
+    date: '2021-07-17T10:57:56.625Z',
+    id: 2,
     rating: 5,
     user: {
-      avatarUrl: 'img/1.png',
+      avatarUrl: 'img/avatar-angelina.jpg',
       id: 1,
       isPro: true,
       name: 'Clow'
     }
   },
   {
-    comment: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
-    date: '2022-07-17T10:57:56.625Z',
+    comment: 'hides behind',
+    date: '2019-07-17T10:57:56.625Z',
     id: 3,
-    rating: 4,
+    rating: 2.1,
     user: {
-      avatarUrl: 'img/1.png',
+      avatarUrl: 'img/avatar-max.jpg',
       id: 1,
       isPro: false,
       name: 'Sworen'
     }
   },
   {
-    comment: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
-    date: '2022-07-17T10:57:56.625Z',
-    id: 2,
-    rating: 4,
+    comment: 'A quiet cozy',
+    date: '2000-07-17T10:57:56.625Z',
+    id: 4,
+    rating: 3.3,
     user: {
-      avatarUrl: 'img/1.png',
+      avatarUrl: 'img/avatar-max.jpg',
       id: 1,
       isPro: true,
       name: 'Ronald'
