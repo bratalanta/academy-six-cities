@@ -2,15 +2,17 @@ import { createReducer } from '@reduxjs/toolkit';
 import { DEFAULT_CITY, SortOption, AuthorizationStatus } from '../const';
 import { Properties, PropertyCity } from '../types/property';
 import { OptionValue } from '../types/sort';
-import { loadProperties, loadReviews, requireAuthorization, setActiveSortOption, setCity, setProperties, setReviews } from './action';
+import { loadProperties, loadReviews, requireAuthorization, setActiveSortOption, setCity, setProperties, setReviews, setUserInfo } from './actions';
 import {Reviews} from '../types/review';
+import { UserData } from '../types/user-data';
 
 type InititalState = {
   city: PropertyCity;
   properties: Properties;
   activeSortOption: OptionValue;
   reviews: Reviews;
-  authorizationStatus: AuthorizationStatus
+  authorizationStatus: AuthorizationStatus;
+  userInfo: UserData | null;
 }
 
 const initialState: InititalState = {
@@ -18,7 +20,8 @@ const initialState: InititalState = {
   properties: [],
   activeSortOption: SortOption.POPULAR,
   reviews: [],
-  authorizationStatus: AuthorizationStatus.Unknown
+  authorizationStatus: AuthorizationStatus.Unknown,
+  userInfo: null
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -43,5 +46,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(setUserInfo, (state, action) => {
+      state.userInfo = action.payload;
     });
 });
