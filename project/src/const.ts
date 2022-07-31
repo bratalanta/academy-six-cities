@@ -5,7 +5,7 @@ export const enum AppRoute {
   Property = '/room/:id'
 }
 
-export const enum AutorizationStatus {
+export const enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN'

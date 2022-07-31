@@ -1,4 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
+import { AuthorizationStatus } from '../const';
 import { Properties, PropertyCity } from '../types/property';
 import { Reviews } from '../types/review';
 import { OptionValue } from '../types/sort';
@@ -9,3 +10,4 @@ export const setActiveSortOption = createAction<OptionValue>('main/setActiveSort
 export const setReviews = createAction<Reviews>('room/setReviews');
 export const loadProperties = createAction<Properties>('data/loadProperties');
 export const loadReviews = createAction<Reviews>('data/loadReviews');
+export const requireAuthorization = createAction<AuthorizationStatus>('login/requireAuthorization');

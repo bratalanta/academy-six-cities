@@ -1,8 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { DEFAULT_CITY, SortOption } from '../const';
+import { DEFAULT_CITY, SortOption, AuthorizationStatus } from '../const';
 import { Properties, PropertyCity } from '../types/property';
 import { OptionValue } from '../types/sort';
-import { loadProperties, loadReviews, setActiveSortOption, setCity, setProperties, setReviews } from './action';
+import { loadProperties, loadReviews, requireAuthorization, setActiveSortOption, setCity, setProperties, setReviews } from './action';
 import {Reviews} from '../types/review';
 
 type InititalState = {
@@ -10,13 +10,15 @@ type InititalState = {
   properties: Properties;
   activeSortOption: OptionValue;
   reviews: Reviews;
+  authorizationStatus: AuthorizationStatus
 }
 
 const initialState: InititalState = {
   city: DEFAULT_CITY,
   properties: [],
   activeSortOption: SortOption.POPULAR,
-  reviews: []
+  reviews: [],
+  authorizationStatus: AuthorizationStatus.Unknown
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -38,5 +40,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadReviews, (state, action) => {
       state.reviews = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
     });
 });
