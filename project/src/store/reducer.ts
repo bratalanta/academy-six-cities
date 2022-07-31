@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { DEFAULT_CITY, SortOption } from '../const';
 import { Properties, PropertyCity } from '../types/property';
 import { OptionValue } from '../types/sort';
-import { setActiveSortOption, setCity, setProperties, setReviews } from './action';
+import { loadProperties, loadReviews, setActiveSortOption, setCity, setProperties, setReviews } from './action';
 import {Reviews} from '../types/review';
 
 type InititalState = {
@@ -31,6 +31,12 @@ export const reducer = createReducer(initialState, (builder) => {
       state.activeSortOption = action.payload;
     })
     .addCase(setReviews, (state, action) => {
+      state.reviews = action.payload;
+    })
+    .addCase(loadProperties, (state, action) => {
+      state.properties = action.payload;
+    })
+    .addCase(loadReviews, (state, action) => {
       state.reviews = action.payload;
     });
 });
