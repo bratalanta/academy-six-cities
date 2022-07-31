@@ -1,11 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { DEFAULT_CITY, SortOption } from '../const';
-import { properties } from '../mocks/properties';
 import { Properties, PropertyCity } from '../types/property';
 import { OptionValue } from '../types/sort';
 import { setActiveSortOption, setCity, setProperties, setReviews } from './action';
 import {Reviews} from '../types/review';
-import { reviews } from '../mocks/reviews';
 
 type InititalState = {
   city: PropertyCity;
@@ -16,9 +14,9 @@ type InititalState = {
 
 const initialState: InititalState = {
   city: DEFAULT_CITY,
-  properties,
+  properties: [],
   activeSortOption: SortOption.POPULAR,
-  reviews
+  reviews: []
 };
 
 export const reducer = createReducer(initialState, (builder) => {
