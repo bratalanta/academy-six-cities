@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { DEFAULT_CITY, SortOption, AuthorizationStatus } from '../const';
 import { Properties, PropertyCity } from '../types/property';
 import { OptionValue } from '../types/sort';
-import { loadProperties, loadReviews, requireAuthorization, setActiveSortOption, setCity, setProperties, setReviews, setUserInfo } from './actions';
+import { loadProperties, loadReviews, requireAuthorization, setActiveSortOption, setCity, setError, setProperties, setReviews, setUserInfo } from './actions';
 import {Reviews} from '../types/review';
 import { UserData } from '../types/user-data';
 
@@ -13,6 +13,7 @@ type InititalState = {
   reviews: Reviews;
   authorizationStatus: AuthorizationStatus;
   userInfo: UserData | null;
+  error: string | null;
 }
 
 const initialState: InititalState = {
@@ -21,7 +22,8 @@ const initialState: InititalState = {
   activeSortOption: SortOption.POPULAR,
   reviews: [],
   authorizationStatus: AuthorizationStatus.Unknown,
-  userInfo: null
+  userInfo: null,
+  error: null
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -49,5 +51,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setUserInfo, (state, action) => {
       state.userInfo = action.payload;
+    })
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
     });
 });

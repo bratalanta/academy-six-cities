@@ -13,3 +13,4 @@ export const loadProperties = createAction<Properties>('data/loadProperties');
 export const loadReviews = createAction<Reviews>('data/loadReviews');
 export const requireAuthorization = createAction<AuthorizationStatus>('login/requireAuthorization');
 export const setUserInfo = createAction<UserData | null>('data/setUserInfo');
+export const setError = createAction<string | null>('common/setError');

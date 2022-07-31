@@ -116,3 +116,8 @@ export const SortOption = {
 } as const;
 
 export const MAX_REVIEW_RATING = 5;
+export const TIMEOUT_SHOW_ERROR = 4000;
+
+export const LOADER_SIZE = 150;
+export const LOADER_COLOR = '#4481c3';
+
