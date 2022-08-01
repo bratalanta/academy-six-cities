@@ -9,7 +9,8 @@ export default function ErrorMessage() {
           type="button"
           className={`button ${styles.errorButton}`}
           onClick={() => window.location.reload()}
-        >Try again
+        >
+          Try again
         </button>
       </div>
     </div>

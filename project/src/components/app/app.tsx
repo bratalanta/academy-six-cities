@@ -11,6 +11,7 @@ import { checkAuthAction } from '../../store/api-actions';
 
 export default function App(): JSX.Element {
   store.dispatch(checkAuthAction());
+
   return (
     <BrowserRouter>
       <Routes>
