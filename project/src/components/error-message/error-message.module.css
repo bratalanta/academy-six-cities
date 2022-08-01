@@ -1,0 +1,36 @@
+.errorButton {
+  margin-left: auto;
+  margin-right: auto;
+
+  padding: 16px 20px 13px;
+  color: #fff;
+  background-color: #4481c3;
+  border-radius: 3px;
+}
+
+.errorButton:active {
+  transform: scale(0.98);
+}
+
+.text {
+  margin-bottom: 50px;
+  font-style: italic;
+  font-size: 2.5rem;
+}
+
+.content {
+  height: 300px;
+  margin: auto;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.container {
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

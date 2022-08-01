@@ -1,8 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { DEFAULT_CITY, SortOption, AuthorizationStatus } from '../const';
+import { DEFAULT_CITY, SortOption, AuthorizationStatus, PropertiesLoadingStatus } from '../const';
 import { Properties, PropertyCity } from '../types/property';
 import { OptionValue } from '../types/sort';
-import { loadProperties, loadReviews, requireAuthorization, setActiveSortOption, setCity, setError, setProperties, setReviews, setUserInfo } from './actions';
+import { loadProperties, loadPropertiesRejected, loadPropertiesResolved, loadReviews, requireAuthorization, setActiveSortOption, setCity, setUserInfo } from './actions';
 import {Reviews} from '../types/review';
 import { UserData } from '../types/user-data';
 
@@ -13,7 +13,7 @@ type InititalState = {
   reviews: Reviews;
   authorizationStatus: AuthorizationStatus;
   userInfo: UserData | null;
-  error: string | null;
+  propertiesLoadingStatus: PropertiesLoadingStatus;
 }
 
 const initialState: InititalState = {
@@ -23,25 +23,26 @@ const initialState: InititalState = {
   reviews: [],
   authorizationStatus: AuthorizationStatus.Unknown,
   userInfo: null,
-  error: null
+  propertiesLoadingStatus: PropertiesLoadingStatus.Idle
 };
 
 export const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(setProperties, (state, action) => {
-      state.properties = action.payload;
-    })
     .addCase(setCity, (state, action) => {
       state.city = action.payload;
     })
     .addCase(setActiveSortOption, (state, action) => {
       state.activeSortOption = action.payload;
     })
-    .addCase(setReviews, (state, action) => {
-      state.reviews = action.payload;
+    .addCase(loadProperties, (state) => {
+      state.propertiesLoadingStatus = PropertiesLoadingStatus.Pending;
     })
-    .addCase(loadProperties, (state, action) => {
+    .addCase(loadPropertiesResolved, (state, action) => {
       state.properties = action.payload;
+      state.propertiesLoadingStatus = PropertiesLoadingStatus.Resolved;
+    })
+    .addCase(loadPropertiesRejected, (state) => {
+      state.propertiesLoadingStatus = PropertiesLoadingStatus.Rejected;
     })
     .addCase(loadReviews, (state, action) => {
       state.reviews = action.payload;
@@ -51,8 +52,5 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setUserInfo, (state, action) => {
       state.userInfo = action.payload;
-    })
-    .addCase(setError, (state, action) => {
-      state.error = action.payload;
     });
 });

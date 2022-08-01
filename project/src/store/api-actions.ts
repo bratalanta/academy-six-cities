@@ -1,24 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { store } from '.';
-import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
+import { APIRoute, AuthorizationStatus } from '../const';
 import { dropToken, saveToken } from '../services/token';
 import { AuthData } from '../types/auth-data';
 import { Properties } from '../types/property';
 import { Reviews } from '../types/review';
 import { AppDispatch, State } from '../types/state';
 import { UserData } from '../types/user-data';
-import { loadProperties, loadReviews, requireAuthorization, setError, setUserInfo } from './actions';
-
-export const clearErrorAction = createAsyncThunk(
-  'commom/clearError',
-  () => (
-    setTimeout(() => {
-      store.dispatch(setError(null));
-    },
-    TIMEOUT_SHOW_ERROR)
-  )
-);
+import { loadProperties, loadPropertiesRejected, loadPropertiesResolved, loadReviews, requireAuthorization, setUserInfo } from './actions';
 
 export const fetchPropertiesAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,
@@ -27,8 +16,13 @@ export const fetchPropertiesAction = createAsyncThunk<void, undefined, {
 }>(
   'data/fetchProperties',
   async (_, {dispatch, extra: api}) => {
-    const {data} = await api.get<Properties>(APIRoute.Properties);
-    dispatch(loadProperties(data));
+    try {
+      dispatch(loadProperties());
+      const {data} = await api.get<Properties>(APIRoute.Properties);
+      dispatch(loadPropertiesResolved(data));
+    } catch {
+      dispatch(loadPropertiesRejected());
+    }
   }
 );
 
@@ -74,7 +68,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
   }
 );
 
-export const logoutAction = createAsyncThunk<void, AuthData, {
+export const logoutAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance

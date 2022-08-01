@@ -3,23 +3,43 @@ import Logo from '../../components/logo/logo';
 import Map from '../../components/map/map';
 import PropertyList from '../../components/property-list/property-list';
 import UserProfile from '../../components/user-profile/user-profile';
-import { CardClassName, LOADER_COLOR, LOADER_SIZE, MapContainerClassName } from '../../const';
+import { CardClassName, LOADER_COLOR, LOADER_SIZE, PropertiesLoadingStatus, MapContainerClassName } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { useState } from 'react';
 import { getSortedProperties } from '../../components/sort-options-list/helper';
 import SortOptionsList from '../../components/sort-options-list/sort-options-list';
 import ClipLoader from 'react-spinners/ClipLoader';
 import styles from '../main-screen/main-screen.module.css';
+import ErrorMessage from '../../components/error-message/error-message';
 
 export default function MainScreen(): JSX.Element {
   const currentCity = useAppSelector((state) => state.city);
   const properties = useAppSelector((state) => state.properties);
   const activeSortOption = useAppSelector((state) => state.activeSortOption);
+  const {propertiesLoadingStatus} = useAppSelector((state) => state);
 
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
 
   const currentProperties = properties.filter(({city}) => currentCity.name === city.name);
   const currentSortedProperties = getSortedProperties(activeSortOption, currentProperties);
+
+  if (propertiesLoadingStatus === PropertiesLoadingStatus.Pending) {
+    return (
+      <div className={styles.loaderContainer}>
+        <ClipLoader
+          size={LOADER_SIZE}
+          color={LOADER_COLOR}
+        />
+      </div>
+    );
+  }
+
+  if (propertiesLoadingStatus === PropertiesLoadingStatus.Rejected) {
+    return (
+      <ErrorMessage />
+    );
+  }
+
 
   return (
     <div className="page page--gray page--main">
@@ -59,18 +79,12 @@ export default function MainScreen(): JSX.Element {
                 activeSortOption={activeSortOption}
               />
               <div className="cities__places-list places__list tabs__content">
-                {properties.length ?
-                  <PropertyList
-                    properties={currentSortedProperties}
-                    cardClassName={CardClassName.Cities}
-                    onCardMouseEnter={(id: number) => setActiveCardId(id)}
-                    onCardMouseLeave={() => setActiveCardId(null)}
-                  /> :
-                  <ClipLoader
-                    size={LOADER_SIZE}
-                    color={LOADER_COLOR}
-                    className={styles.loader}
-                  />}
+                <PropertyList
+                  properties={currentSortedProperties}
+                  cardClassName={CardClassName.Cities}
+                  onCardMouseEnter={(id: number) => setActiveCardId(id)}
+                  onCardMouseLeave={() => setActiveCardId(null)}
+                />
               </div>
             </section>
             <div className="cities__right-section">

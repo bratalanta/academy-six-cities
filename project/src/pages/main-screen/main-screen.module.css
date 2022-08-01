@@ -1,4 +1,6 @@
-.loader {
-  margin-left: auto;
-  margin-right: auto;
+.loaderContainer {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

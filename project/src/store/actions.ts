@@ -6,10 +6,10 @@ import { OptionValue } from '../types/sort';
 import { UserData } from '../types/user-data';
 
 export const setCity = createAction<PropertyCity>('main/setCity');
-export const setProperties = createAction<Properties>('main/setProperties');
 export const setActiveSortOption = createAction<OptionValue>('main/setActiveSortOption');
-export const setReviews = createAction<Reviews>('room/setReviews');
-export const loadProperties = createAction<Properties>('data/loadProperties');
+export const loadProperties = createAction('data/loadProperties');
+export const loadPropertiesResolved = createAction<Properties>('data/loadPropertiesResolved');
+export const loadPropertiesRejected = createAction('data/loadPropertiesRejected');
 export const loadReviews = createAction<Reviews>('data/loadReviews');
 export const requireAuthorization = createAction<AuthorizationStatus>('login/requireAuthorization');
 export const setUserInfo = createAction<UserData | null>('data/setUserInfo');
