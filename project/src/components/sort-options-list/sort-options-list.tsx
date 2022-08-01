@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { SortOption } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { useOutsideClick } from '../../hooks/use-outside-click';
-import { setActiveSortOption } from '../../store/action';
+import { setActiveSortOption } from '../../store/actions';
 import { PropertyCity } from '../../types/property';
 import { OptionValue } from '../../types/sort';
 import SortOptionItem from '../sort-options-item/sort-options-item';

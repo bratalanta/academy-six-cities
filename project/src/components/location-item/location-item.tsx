@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { useAppDispatch } from '../../hooks';
-import { setCity } from '../../store/action';
+import { setCity } from '../../store/actions';
 import { PropertyCity } from '../../types/property';
 
 type LocationItemProps = {

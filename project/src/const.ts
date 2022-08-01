@@ -5,7 +5,15 @@ export const enum AppRoute {
   Property = '/room/:id'
 }
 
-export const enum AutorizationStatus {
+export const enum APIRoute {
+  Properties = '/hotels',
+  Favorites = '/favorite',
+  Reviews = '/comments',
+  Login = '/login',
+  Logout = '/logout'
+}
+
+export const enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN'
@@ -107,4 +115,15 @@ export const SortOption = {
   HIGH_TO_LOW: 'Price: high to low'
 } as const;
 
+export const enum PropertiesLoadingStatus {
+  Idle = 'idle',
+  Pending = 'pending',
+  Resolved = 'resolved',
+  Rejected = 'rejected'
+}
+
 export const MAX_REVIEW_RATING = 5;
+
+export const LOADER_SIZE = 150;
+export const LOADER_COLOR = '#4481c3';
+
