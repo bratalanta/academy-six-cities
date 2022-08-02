@@ -1,0 +1,13 @@
+.inputWrapper {
+  position: relative;
+}
+
+.errorMessage {
+  position: absolute;
+  left: 2px;
+  bottom: 10px;
+  width: 100%;
+
+  font-size: 0.7em;
+  color: red;
+}
