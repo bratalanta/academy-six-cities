@@ -6,12 +6,11 @@ import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
 import PropertyScreen from '../../pages/property-screen/property-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
-import { store } from '../../store';
-import { checkAuthAction } from '../../store/api-actions';
+// import { store } from '../../store';
+// import { checkAuthAction } from '../../store/api-actions';
 
 export default function App(): JSX.Element {
-  store.dispatch(checkAuthAction());
-
+  // store.dispatch(checkAuthAction());
   return (
     <BrowserRouter>
       <Routes>
