@@ -81,5 +81,6 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     dropToken();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     dispatch(setUserInfo(null));
+    dispatch(redirectToRoute(AppRoute.Main));
   }
 );
