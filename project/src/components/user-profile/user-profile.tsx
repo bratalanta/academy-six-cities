@@ -1,17 +1,50 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { useAppSelector } from '../../hooks';
+import { store } from '../../store';
+import { logoutAction } from '../../store/api-actions';
 
 export default function UserProfile() {
+
+  const {userInfo} = useAppSelector((state) => state);
+  const favoriteProperties = useAppSelector((state) => state.properties)
+    .filter(({isFavorite}) => isFavorite);
+
   return (
-    <Link
-      className="header__nav-link header__nav-link--profile"
-      to={AppRoute.Favorites}
-    >
-      <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-      <span className="header__user-name user__name">
-        Oliver.conner@gmail.com
-      </span>
-      <span className="header__favorite-count">3</span>
-    </Link>
+    <ul className="header__nav-list">
+      <li className="header__nav-item user">
+        <Link
+          className="header__nav-link header__nav-link--profile"
+          to={AppRoute.Favorites}
+        >
+          <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+          <span className="header__user-name user__name">
+            {userInfo?.email}
+          </span>
+          {userInfo && <span className="header__favorite-count">{favoriteProperties.length}</span>}
+        </Link>
+      </li>
+      <li className="header__nav-item">
+        {
+          userInfo ?
+            <a
+              className="header__nav-link"
+              onClick={(evt) => {
+                evt.preventDefault();
+                store.dispatch(logoutAction());
+              }}
+            >
+              <span className="header__signout">Sign out</span>
+            </a>
+            :
+            <Link
+              className="header__nav-link"
+              to={AppRoute.Login}
+            >
+              <span className="header__signout">Sign in</span>
+            </Link>
+        }
+      </li>
+    </ul>
   );
 }

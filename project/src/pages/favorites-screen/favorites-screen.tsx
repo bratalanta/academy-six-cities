@@ -31,16 +31,7 @@ export default function FavoritesScreen(): JSX.Element {
               <Logo />
             </div>
             <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <UserProfile />
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
+              <UserProfile />
             </nav>
           </div>
         </div>

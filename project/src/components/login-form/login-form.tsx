@@ -61,7 +61,10 @@ export default function LoginForm() {
 
   const onFormSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch(loginAction({email: email.value, password: password.value}));
+    dispatch(loginAction({
+      email: email.value,
+      password: password.value
+    }));
   };
 
   useEffect(() => {
