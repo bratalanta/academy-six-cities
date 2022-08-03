@@ -1,9 +1,9 @@
-export type InputNameType = {
+export type InputName = {
   value: string;
   dirty: boolean;
   errorMessage: string;
 }
 
 export type FormState = {
-  [index: string]: InputNameType
+  [index: string]: InputName
 }
