@@ -5,9 +5,8 @@ import styles from '../login-form/login-form.module.css';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import cn from 'classnames';
-import { setCity } from '../../store/actions';
 import { getRandomCity } from '../../utils';
-// import useEffectOnce from '../../hooks/use-effect-once';
+import { setCurrentCity } from '../../store/app-slice/app-slice';
 
 const InputFields = {
   email: 'E-mail',
@@ -111,7 +110,8 @@ export default function LoginForm() {
                 const inputCn = cn(
                   'login__input',
                   'form__input',
-                  !values[name].isInputValid && values[name].touched && styles.invalidInput && isSubmitButtonPressed
+                  (!values[name].isInputValid && values[name].touched && isSubmitButtonPressed)
+                  && styles.invalidInput
                 );
 
                 return (
@@ -157,7 +157,7 @@ export default function LoginForm() {
             <Link
               className="locations__item-link"
               to={AppRoute.Main}
-              onClick={() => dispatch(setCity(randomCity))}
+              onClick={() => dispatch(setCurrentCity(randomCity))}
             >
               <span>{randomCity.name}</span>
             </Link>

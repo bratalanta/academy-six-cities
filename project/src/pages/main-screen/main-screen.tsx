@@ -1,7 +1,7 @@
 import LocationItemList from '../../components/location-item-list/location-item-list';
 import Map from '../../components/map/map';
 import PropertyList from '../../components/property-list/property-list';
-import { CardClassName, LOADER_COLOR, LOADER_SIZE, PropertiesLoadingStatus, MapContainerClassName } from '../../const';
+import { CardClassName, LOADER_COLOR, LOADER_SIZE, LoadingStatus, MapContainerClassName } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { useState } from 'react';
 import { getSortedProperties } from '../../components/sort-options-list/helper';
@@ -10,19 +10,21 @@ import ClipLoader from 'react-spinners/ClipLoader';
 import styles from '../main-screen/main-screen.module.css';
 import ErrorMessage from '../../components/error-message/error-message';
 import Header from '../../components/header/header';
+import { selectCurrentCity, selectCurrentSortOption } from '../../store/app-slice/selectors';
+import { selectPropeties, selectPropetiesLoadingStatus } from '../../store/properties-slice/selectors';
 
 export default function MainScreen(): JSX.Element {
-  const currentCity = useAppSelector((state) => state.city);
-  const properties = useAppSelector((state) => state.properties);
-  const activeSortOption = useAppSelector((state) => state.activeSortOption);
-  const {propertiesLoadingStatus} = useAppSelector((state) => state);
+  const currentCity = useAppSelector(selectCurrentCity);
+  const properties = useAppSelector(selectPropeties);
+  const activeSortOption = useAppSelector(selectCurrentSortOption);
+  const propertiesLoadingStatus = useAppSelector(selectPropetiesLoadingStatus);
 
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
 
   const currentProperties = properties.filter(({city}) => currentCity.name === city.name);
   const currentSortedProperties = getSortedProperties(activeSortOption, currentProperties);
 
-  if (propertiesLoadingStatus === PropertiesLoadingStatus.Pending) {
+  if (propertiesLoadingStatus === LoadingStatus.Pending) {
     return (
       <div className={styles.loaderContainer}>
         <ClipLoader
@@ -33,7 +35,7 @@ export default function MainScreen(): JSX.Element {
     );
   }
 
-  if (propertiesLoadingStatus === PropertiesLoadingStatus.Rejected) {
+  if (propertiesLoadingStatus === LoadingStatus.Rejected) {
     return (
       <ErrorMessage />
     );
@@ -45,7 +47,7 @@ export default function MainScreen(): JSX.Element {
       <Header />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <LocationItemList currentCity={currentCity}/>
+        <LocationItemList />
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">

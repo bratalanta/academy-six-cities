@@ -3,10 +3,11 @@ import Logo from '../../components/logo/logo';
 import PropertyList from '../../components/property-list/property-list';
 import { CardClassName } from '../../const';
 import { useAppSelector } from '../../hooks';
+import { selectPropeties } from '../../store/properties-slice/selectors';
 import { GroupedProperties } from '../../types/property';
 
 export default function FavoritesScreen(): JSX.Element {
-  const favoriteProperties = useAppSelector((state) => state.properties)
+  const favoriteProperties = useAppSelector(selectPropeties)
     .filter(({isFavorite}) => isFavorite);
 
   const groupedProperties = favoriteProperties.reduce<GroupedProperties>(

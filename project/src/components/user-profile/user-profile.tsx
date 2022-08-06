@@ -2,11 +2,13 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
+import { selectUserInfo } from '../../store/auth-slice/selectors';
+import { selectPropeties } from '../../store/properties-slice/selectors';
 
 export default function UserProfile() {
   const dispatch = useAppDispatch();
-  const {userInfo} = useAppSelector((state) => state);
-  const favoriteProperties = useAppSelector((state) => state.properties)
+  const userInfo = useAppSelector(selectUserInfo);
+  const favoriteProperties = useAppSelector(selectPropeties)
     .filter(({isFavorite}) => isFavorite);
 
   return (

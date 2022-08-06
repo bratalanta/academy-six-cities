@@ -115,11 +115,18 @@ export const SortOption = {
   HIGH_TO_LOW: 'Price: high to low'
 } as const;
 
-export const enum PropertiesLoadingStatus {
+export const enum LoadingStatus {
   Idle = 'idle',
   Pending = 'pending',
-  Resolved = 'resolved',
+  Fulfilled = 'fulfilled',
   Rejected = 'rejected'
+}
+
+export const enum NameSpace {
+  Auth = 'authorization',
+  Properties = 'hotels',
+  Reviews = 'comments',
+  App = 'app'
 }
 
 export const MAX_REVIEW_RATING = 5;

@@ -1,32 +1,28 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
+import { APIRoute, AppRoute } from '../const';
 import { dropToken, saveToken } from '../services/token';
 import { AuthData } from '../types/auth-data';
 import { Properties } from '../types/property';
 import { Reviews } from '../types/review';
 import { AppDispatch, State } from '../types/state';
 import { UserData } from '../types/user-data';
-import { loadProperties, loadPropertiesRejected, loadPropertiesResolved, loadReviews, redirectToRoute, requireAuthorization, setUserInfo } from './actions';
+import { redirectToRoute } from './actions';
 
-export const fetchPropertiesAction = createAsyncThunk<void, undefined, {
+export const fetchPropertiesAction = createAsyncThunk<Properties, undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
   'data/fetchProperties',
   async (_, {dispatch, extra: api}) => {
-    try {
-      dispatch(loadProperties());
-      const {data} = await api.get<Properties>(APIRoute.Properties);
-      dispatch(loadPropertiesResolved(data));
-    } catch {
-      dispatch(loadPropertiesRejected());
-    }
+    const {data} = await api.get<Properties>(APIRoute.Properties);
+
+    return data;
   }
 );
 
-export const fetchReviewsAction = createAsyncThunk<void, undefined, {
+export const fetchReviewsAction = createAsyncThunk<Reviews, undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
@@ -34,28 +30,25 @@ export const fetchReviewsAction = createAsyncThunk<void, undefined, {
   'data/fetchReviews',
   async (_, {dispatch, extra: api}) => {
     const {data} = await api.get<Reviews>(APIRoute.Reviews);
-    dispatch(loadReviews(data));
+
+    return data;
   }
 );
 
-export const checkAuthAction = createAsyncThunk<void, undefined, {
+export const checkAuthAction = createAsyncThunk<UserData, undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
   'user/checkAuth',
   async (_, {dispatch, extra: api}) => {
-    try {
-      const {data} = await api.get(APIRoute.Login);
-      dispatch(setUserInfo(data));
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    } catch {
-      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-    }
+    const {data} = await api.get<UserData>(APIRoute.Login);
+
+    return data;
   }
 );
 
-export const loginAction = createAsyncThunk<void, AuthData, {
+export const loginAction = createAsyncThunk<UserData, AuthData, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
@@ -64,9 +57,9 @@ export const loginAction = createAsyncThunk<void, AuthData, {
   async ({email, password}, {dispatch, extra: api}) => {
     const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(data.token);
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    dispatch(setUserInfo(data));
     dispatch(redirectToRoute(AppRoute.Main));
+
+    return data;
   }
 );
 
@@ -79,8 +72,6 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   async (_, {dispatch, extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-    dispatch(setUserInfo(null));
     dispatch(redirectToRoute(AppRoute.Main));
   }
 );

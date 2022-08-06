@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { SortOption } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { useOutsideClick } from '../../hooks/use-outside-click';
-import { setActiveSortOption } from '../../store/actions';
+import { setCurrentSortOption } from '../../store/app-slice/app-slice';
 import { PropertyCity } from '../../types/property';
 import { OptionValue } from '../../types/sort';
 import SortOptionItem from '../sort-options-item/sort-options-item';
@@ -26,7 +26,7 @@ export default function SortOptionsList({ activeSortOption, currentCity }: SortO
 
   useEffect(() => (
     () => {
-      dispatch( setActiveSortOption(SortOption.POPULAR) );
+      dispatch(setCurrentSortOption(SortOption.POPULAR));
     }
   ), [currentCity]);
 
@@ -52,7 +52,7 @@ export default function SortOptionsList({ activeSortOption, currentCity }: SortO
               activeSortOption={activeSortOption}
               onOptionClick={(o: OptionValue) => {
                 setIsOptionsListOpened(false);
-                dispatch( setActiveSortOption(o) );
+                dispatch(setCurrentSortOption(o));
               }}
             />
           ))
