@@ -14,7 +14,6 @@ const InputFields = {
 
 type InputName = {
   value: string;
-  touched: boolean;
   errorMessage: string;
   isInputValid: boolean;
 }
@@ -38,7 +37,6 @@ export default function LoginForm() {
     Object.keys(InputFields).reduce<FormState>((acc, name) => {
       acc[name] = {
         value: '',
-        touched: false,
         errorMessage: ErrorMessage[name],
         isInputValid: false
       };
@@ -79,17 +77,7 @@ export default function LoginForm() {
     }));
   };
 
-  const handleBlur = (name: string) => setValues({
-    ...values,
-    [name]: {
-      ...values[name],
-      touched: true
-    }
-  });
-
   const handleButtonClick = () => {
-    email.touched = true;
-    password.touched = true;
     setIsSubmitButtonPressed(true);
   };
 
@@ -107,7 +95,7 @@ export default function LoginForm() {
             const inputCn = cn(
               'login__input',
               'form__input',
-              (!values[name].isInputValid && values[name].touched && isSubmitButtonPressed)
+              (!values[name].isInputValid && isSubmitButtonPressed)
               && styles.invalidInput
             );
 
@@ -123,12 +111,10 @@ export default function LoginForm() {
                   name={name}
                   value={values[name].value}
                   placeholder={label}
-                  onBlur={() => handleBlur(name)}
                   onChange={handleChange}
                 />
                 {
                   !values[name].isInputValid &&
-                  values[name].touched &&
                   isSubmitButtonPressed &&
                   <span className={styles.errorMessage}>{values[name].errorMessage}</span>
                 }
