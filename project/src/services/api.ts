@@ -8,7 +8,6 @@ const REQUEST_TIMEOUT = 5000;
 
 const statusCodes = new Set([
   StatusCodes.BAD_REQUEST,
-  StatusCodes.UNAUTHORIZED,
   StatusCodes.NOT_FOUND
 ]);
 
@@ -40,5 +39,6 @@ export const createAPI = (): AxiosInstance => {
 
       throw error;
     });
+
   return api;
 };
