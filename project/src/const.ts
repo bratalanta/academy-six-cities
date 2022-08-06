@@ -131,6 +131,11 @@ export const enum NameSpace {
 
 export const MAX_REVIEW_RATING = 5;
 
-export const LOADER_SIZE = 150;
-export const LOADER_COLOR = '#4481c3';
+export const MAIN_LOADER_SIZE = 150;
+export const MAIN_LOADER_COLOR = '#4481c3';
 
+export const LOGIN_LOADER_SIZE = 5;
+export const LOGIN_LOADER_COLOR = '#FFFFFF';
+
+export const LOGOUT_LOADER_SIZE = 10;
+export const LOGOUT_LOADER_COLOR = '#616161';

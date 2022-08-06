@@ -1,7 +1,7 @@
 import LocationItemList from '../../components/location-item-list/location-item-list';
 import Map from '../../components/map/map';
 import PropertyList from '../../components/property-list/property-list';
-import { CardClassName, LOADER_COLOR, LOADER_SIZE, LoadingStatus, MapContainerClassName } from '../../const';
+import { CardClassName, LoadingStatus, MAIN_LOADER_COLOR, MAIN_LOADER_SIZE, MapContainerClassName } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { useState } from 'react';
 import { getSortedProperties } from '../../components/sort-options-list/helper';
@@ -28,8 +28,8 @@ export default function MainScreen(): JSX.Element {
     return (
       <div className={styles.loaderContainer}>
         <ClipLoader
-          size={LOADER_SIZE}
-          color={LOADER_COLOR}
+          size={MAIN_LOADER_SIZE}
+          color={MAIN_LOADER_COLOR}
         />
       </div>
     );

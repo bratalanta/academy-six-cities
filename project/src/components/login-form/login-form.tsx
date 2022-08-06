@@ -1,8 +1,11 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
 import styles from '../login-form/login-form.module.css';
 import cn from 'classnames';
+import { selectLoginStatus } from '../../store/auth-slice/selectors';
+import { LoadingStatus, LOGIN_LOADER_COLOR, LOGIN_LOADER_SIZE } from '../../const';
+import { BeatLoader } from 'react-spinners';
 
 const InputFields = {
   email: 'E-mail',
@@ -45,6 +48,7 @@ export default function LoginForm() {
 
   const dispatch = useAppDispatch();
   const [isSubmitButtonPressed, setIsSubmitButtonPressed] = useState(false);
+  const loginStatus = useAppSelector(selectLoginStatus);
 
   const {email, password} = values;
 
@@ -140,8 +144,16 @@ export default function LoginForm() {
               handleButtonClick();
             }
           }}
+          disabled={loginStatus === LoadingStatus.Pending}
         >
-          Sign in
+          {
+            loginStatus === LoadingStatus.Pending ?
+              <BeatLoader
+                size={LOGIN_LOADER_SIZE}
+                color={LOGIN_LOADER_COLOR}
+              /> :
+              'Sign in'
+          }
         </button>
       </form>
     </section>
