@@ -1,12 +1,8 @@
-import { ChangeEvent, FormEvent, useMemo, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
 import styles from '../login-form/login-form.module.css';
-import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
 import cn from 'classnames';
-import { getRandomCity } from '../../utils';
-import { setCurrentCity } from '../../store/app-slice/app-slice';
 
 const InputFields = {
   email: 'E-mail',
@@ -49,7 +45,6 @@ export default function LoginForm() {
 
   const dispatch = useAppDispatch();
   const [isSubmitButtonPressed, setIsSubmitButtonPressed] = useState(false);
-  const randomCity = useMemo(() => getRandomCity(), []);
 
   const {email, password} = values;
 
@@ -95,75 +90,60 @@ export default function LoginForm() {
   };
 
   return (
-    <main className="page__main page__main--login">
-      <div className="page__login-container container">
-        <section className="login">
-          <h1 className="login__title">Sign in</h1>
-          <form className="login__form form" onSubmit={handleSubmit} noValidate>
-            {
-              Object.entries(InputFields).map(([name, label]) => {
-                const inputWrapperCn = cn(
-                  'login__input-wrapper',
-                  'form__input-wrapper',
-                  styles.inputWrapper
-                );
-                const inputCn = cn(
-                  'login__input',
-                  'form__input',
-                  (!values[name].isInputValid && values[name].touched && isSubmitButtonPressed)
-                  && styles.invalidInput
-                );
+    <section className="login">
+      <h1 className="login__title">Sign in</h1>
+      <form className="login__form form" onSubmit={handleSubmit} noValidate>
+        {
+          Object.entries(InputFields).map(([name, label]) => {
+            const inputWrapperCn = cn(
+              'login__input-wrapper',
+              'form__input-wrapper',
+              styles.inputWrapper
+            );
+            const inputCn = cn(
+              'login__input',
+              'form__input',
+              (!values[name].isInputValid && values[name].touched && isSubmitButtonPressed)
+              && styles.invalidInput
+            );
 
-                return (
-                  <div
-                    className={inputWrapperCn}
-                    key={name}
-                  >
-                    <label className="visually-hidden">{label}</label>
-                    <input
-                      className={inputCn}
-                      type={name}
-                      name={name}
-                      value={values[name].value}
-                      placeholder={label}
-                      onBlur={() => handleBlur(name)}
-                      onChange={handleChange}
-                    />
-                    {
-                      !values[name].isInputValid &&
-                      values[name].touched &&
-                      isSubmitButtonPressed &&
-                      <span className={styles.errorMessage}>{values[name].errorMessage}</span>
-                    }
-                  </div>
-                );
-              })
-            }
-            <button
-              className="login__submit form__submit button"
-              type="submit"
-              onClick={() => {
-                if (!isSubmitButtonPressed) {
-                  handleButtonClick();
+            return (
+              <div
+                className={inputWrapperCn}
+                key={name}
+              >
+                <label className="visually-hidden">{label}</label>
+                <input
+                  className={inputCn}
+                  type={name}
+                  name={name}
+                  value={values[name].value}
+                  placeholder={label}
+                  onBlur={() => handleBlur(name)}
+                  onChange={handleChange}
+                />
+                {
+                  !values[name].isInputValid &&
+                  values[name].touched &&
+                  isSubmitButtonPressed &&
+                  <span className={styles.errorMessage}>{values[name].errorMessage}</span>
                 }
-              }}
-            >
-              Sign in
-            </button>
-          </form>
-        </section>
-        <section className="locations locations--login locations--current">
-          <div className="locations__item">
-            <Link
-              className="locations__item-link"
-              to={AppRoute.Main}
-              onClick={() => dispatch(setCurrentCity(randomCity))}
-            >
-              <span>{randomCity.name}</span>
-            </Link>
-          </div>
-        </section>
-      </div>
-    </main>
+              </div>
+            );
+          })
+        }
+        <button
+          className="login__submit form__submit button"
+          type="submit"
+          onClick={() => {
+            if (!isSubmitButtonPressed) {
+              handleButtonClick();
+            }
+          }}
+        >
+          Sign in
+        </button>
+      </form>
+    </section>
   );
 }
