@@ -3,8 +3,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
 import styles from '../login-form/login-form.module.css';
 import cn from 'classnames';
-import { selectLoginStatus } from '../../store/auth-slice/selectors';
-import { LoadingStatus, LOGIN_LOADER_COLOR, LOGIN_LOADER_SIZE } from '../../const';
+import { authSelector } from '../../store/auth-slice/selectors';
+import { Loader } from '../../const';
 import { BeatLoader } from 'react-spinners';
 
 const InputFields = {
@@ -46,7 +46,7 @@ export default function LoginForm() {
 
   const dispatch = useAppDispatch();
   const [isSubmitButtonPressed, setIsSubmitButtonPressed] = useState(false);
-  const loginStatus = useAppSelector(selectLoginStatus);
+  const {isLoginStatusPending} = useAppSelector(authSelector);
 
   const {email, password} = values;
 
@@ -130,13 +130,13 @@ export default function LoginForm() {
               handleButtonClick();
             }
           }}
-          disabled={loginStatus === LoadingStatus.Pending}
+          disabled={isLoginStatusPending}
         >
           {
-            loginStatus === LoadingStatus.Pending ?
+            isLoginStatusPending ?
               <BeatLoader
-                size={LOGIN_LOADER_SIZE}
-                color={LOGIN_LOADER_COLOR}
+                size={Loader.Login.size}
+                color={Loader.Login.color}
               /> :
               'Sign in'
           }

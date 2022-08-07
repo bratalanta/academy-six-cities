@@ -1,18 +1,18 @@
 import { Link } from 'react-router-dom';
 import { SkewLoader } from 'react-spinners';
-import { AppRoute, LoadingStatus, LOGOUT_LOADER_COLOR, LOGOUT_LOADER_SIZE } from '../../const';
+import { AppRoute, Loader } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
-import { selectLogoutStatus, selectUserInfo } from '../../store/auth-slice/selectors';
-import { selectPropeties } from '../../store/properties-slice/selectors';
+import { authSelector, selectUserInfo } from '../../store/auth-slice/selectors';
+import { selectProperties } from '../../store/properties-slice/selectors';
 import styles from '../user-profile/user-profile.module.css';
 
 export default function UserProfile() {
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector(selectUserInfo);
-  const favoriteProperties = useAppSelector(selectPropeties)
+  const favoriteProperties = useAppSelector(selectProperties)
     .filter(({isFavorite}) => isFavorite);
-  const logoutStatus = useAppSelector(selectLogoutStatus);
+  const {isLogoutStatusPending} = useAppSelector(authSelector);
 
   return (
     <nav className="header__nav">
@@ -37,7 +37,7 @@ export default function UserProfile() {
                 onClick={(evt) => {
                   evt.preventDefault();
 
-                  if (logoutStatus === LoadingStatus.Pending) {
+                  if (isLogoutStatusPending) {
                     return;
                   }
 
@@ -48,9 +48,9 @@ export default function UserProfile() {
                   Sign out
                   {
                     <SkewLoader
-                      size={LOGOUT_LOADER_SIZE}
-                      loading={logoutStatus === LoadingStatus.Pending}
-                      color={LOGOUT_LOADER_COLOR}
+                      size={Loader.Logout.size}
+                      loading={isLogoutStatusPending}
+                      color={Loader.Logout.color}
                       className={styles.loader}
                     />
                   }

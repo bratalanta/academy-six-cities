@@ -1,41 +1,36 @@
 import LocationItemList from '../../components/location-item-list/location-item-list';
 import Map from '../../components/map/map';
 import PropertyList from '../../components/property-list/property-list';
-import { CardClassName, LoadingStatus, MAIN_LOADER_COLOR, MAIN_LOADER_SIZE, MapContainerClassName } from '../../const';
+import { CardClassName, Loader, MapContainerClassName } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { useState } from 'react';
-import { getSortedProperties } from '../../components/sort-options-list/helper';
 import SortOptionsList from '../../components/sort-options-list/sort-options-list';
 import ClipLoader from 'react-spinners/ClipLoader';
 import styles from '../main-screen/main-screen.module.css';
 import ErrorMessage from '../../components/error-message/error-message';
 import Header from '../../components/header/header';
 import { selectCurrentCity, selectCurrentSortOption } from '../../store/app-slice/selectors';
-import { selectPropeties, selectPropetiesLoadingStatus } from '../../store/properties-slice/selectors';
+import { getMemoizedCurrentProperties, getPropertiesLoadingStatus } from '../../store/properties-slice/selectors';
 
 export default function MainScreen(): JSX.Element {
   const currentCity = useAppSelector(selectCurrentCity);
-  const properties = useAppSelector(selectPropeties);
   const activeSortOption = useAppSelector(selectCurrentSortOption);
-  const propertiesLoadingStatus = useAppSelector(selectPropetiesLoadingStatus);
-
+  const {isPropertiesStatusPending, isPropertiesStatusRejected} = useAppSelector(getPropertiesLoadingStatus);
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
+  const {currentProperties, currentSortedProperties} = useAppSelector(getMemoizedCurrentProperties);
 
-  const currentProperties = properties.filter(({city}) => currentCity.name === city.name);
-  const currentSortedProperties = getSortedProperties(activeSortOption, currentProperties);
-
-  if (propertiesLoadingStatus === LoadingStatus.Pending) {
+  if (isPropertiesStatusPending) {
     return (
       <div className={styles.loaderContainer}>
         <ClipLoader
-          size={MAIN_LOADER_SIZE}
-          color={MAIN_LOADER_COLOR}
+          size={Loader.Main.size}
+          color={Loader.Main.color}
         />
       </div>
     );
   }
 
-  if (propertiesLoadingStatus === LoadingStatus.Rejected) {
+  if (isPropertiesStatusRejected) {
     return (
       <ErrorMessage />
     );

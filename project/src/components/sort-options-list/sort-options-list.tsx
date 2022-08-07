@@ -50,9 +50,9 @@ export default function SortOptionsList({ activeSortOption, currentCity }: SortO
               key={option}
               option={option}
               activeSortOption={activeSortOption}
-              onOptionClick={(o: OptionValue) => {
+              onOptionClick={(optionValue: OptionValue) => {
                 setIsOptionsListOpened(false);
-                dispatch(setCurrentSortOption(o));
+                dispatch(setCurrentSortOption(optionValue));
               }}
             />
           ))

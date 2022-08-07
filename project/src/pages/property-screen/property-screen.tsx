@@ -6,7 +6,7 @@ import ReviewsList from '../../components/reviews-list/reviews-list';
 import { CardClassName, MapContainerClassName } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { selectCurrentCity } from '../../store/app-slice/selectors';
-import { selectPropeties } from '../../store/properties-slice/selectors';
+import { selectProperties } from '../../store/properties-slice/selectors';
 import { selectReviews } from '../../store/reviews-slice/selectors';
 import { sortReviewsByDate } from '../../utils';
 
@@ -17,7 +17,7 @@ export default function PropertyScreen(): JSX.Element {
     .sort(sortReviewsByDate)
     .slice(0, REVIEWS_LIMIT);
   const currentCity = useAppSelector(selectCurrentCity);
-  const properties = useAppSelector(selectPropeties)
+  const properties = useAppSelector(selectProperties)
     .filter(({city}) => currentCity.name === city.name);
 
   return (
