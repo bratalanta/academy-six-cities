@@ -1,16 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { LoadingStatus, NameSpace } from '../../const';
 import { Reviews } from '../../types/review';
-import { fetchReviewsAction } from '../api-actions';
+import { fetchReviewsAction, postReviewAction } from '../api-actions';
 
 type ReviewsSlice = {
   reviews: Reviews;
-  loadingStatus: LoadingStatus;
+  postingStatus: LoadingStatus;
 }
 
 const initialState: ReviewsSlice = {
   reviews: [],
-  loadingStatus: LoadingStatus.Idle
+  postingStatus: LoadingStatus.Idle,
 };
 
 export const reviewsSlice = createSlice({
@@ -20,13 +20,19 @@ export const reviewsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchReviewsAction.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.reviews = action.payload;
+        }
+      })
+      .addCase(postReviewAction.fulfilled, (state, action) => {
+        state.postingStatus = LoadingStatus.Fulfilled;
         state.reviews = action.payload;
       })
-      .addCase(fetchReviewsAction.pending, (state) => {
-        state.loadingStatus = LoadingStatus.Pending;
+      .addCase(postReviewAction.pending, (state) => {
+        state.postingStatus = LoadingStatus.Pending;
       })
-      .addCase(fetchReviewsAction.rejected, (state) => {
-        state.loadingStatus = LoadingStatus.Rejected;
+      .addCase(postReviewAction.rejected, (state) => {
+        state.postingStatus = LoadingStatus.Rejected;
       });
   }
 });

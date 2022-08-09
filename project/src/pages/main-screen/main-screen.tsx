@@ -1,16 +1,15 @@
 import LocationItemList from '../../components/location-item-list/location-item-list';
 import Map from '../../components/map/map';
 import PropertyList from '../../components/property-list/property-list';
-import { CardClassName, Loader, MapContainerClassName } from '../../const';
+import { CardClassName, MapContainerClassName } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { useState } from 'react';
 import SortOptionsList from '../../components/sort-options-list/sort-options-list';
-import ClipLoader from 'react-spinners/ClipLoader';
-import styles from '../main-screen/main-screen.module.css';
 import ErrorMessage from '../../components/error-message/error-message';
 import Header from '../../components/header/header';
 import { selectCurrentCity, selectCurrentSortOption } from '../../store/app-slice/selectors';
 import { getMemoizedCurrentProperties, getPropertiesLoadingStatus } from '../../store/properties-slice/selectors';
+import PrimaryLoader from '../../components/primary-loader/primary-loader';
 
 export default function MainScreen(): JSX.Element {
   const currentCity = useAppSelector(selectCurrentCity);
@@ -21,12 +20,7 @@ export default function MainScreen(): JSX.Element {
 
   if (isPropertiesStatusPending) {
     return (
-      <div className={styles.loaderContainer}>
-        <ClipLoader
-          size={Loader.Main.size}
-          color={Loader.Main.color}
-        />
-      </div>
+      <PrimaryLoader />
     );
   }
 

@@ -11,8 +11,8 @@ export const authSelector = createSelector(
   [selectLoginStatus, selectLogoutStatus, selectAuthorizationStatus],
   (loginStatus, logoutStatus, authStatus) => (
     {
-      isLogoutStatusPending: [LoadingStatus.Pending, LoadingStatus.Idle].includes(logoutStatus),
-      isLoginStatusPending: [LoadingStatus.Pending, LoadingStatus.Idle].includes(loginStatus),
+      isLogoutStatusPending: LoadingStatus.Pending === logoutStatus,
+      isLoginStatusPending: LoadingStatus.Pending === loginStatus,
       isUserAuthorized: authStatus === AuthorizationStatus.Auth,
     }
   ));

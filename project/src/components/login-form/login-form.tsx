@@ -4,8 +4,7 @@ import { loginAction } from '../../store/api-actions';
 import styles from '../login-form/login-form.module.css';
 import cn from 'classnames';
 import { authSelector } from '../../store/auth-slice/selectors';
-import { Loader } from '../../const';
-import { BeatLoader } from 'react-spinners';
+import ButtonLoader from '../button-loader/button-loader';
 
 const InputFields = {
   email: 'E-mail',
@@ -134,10 +133,7 @@ export default function LoginForm() {
         >
           {
             isLoginStatusPending ?
-              <BeatLoader
-                size={Loader.Login.size}
-                color={Loader.Login.color}
-              /> :
+              <ButtonLoader /> :
               'Sign in'
           }
         </button>

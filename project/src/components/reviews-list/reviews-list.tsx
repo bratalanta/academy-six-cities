@@ -1,17 +1,20 @@
-import React from 'react';
-import { Reviews } from '../../types/review';
+import { useAppSelector } from '../../hooks';
+import { getLimitedSortedReviews } from '../../store/reviews-slice/selectors';
 import ReviewsItem from '../reviews-item/reviews-item';
 
-type ReviewsListProps = {
-  reviews: Reviews;
-}
+export default function ReviewsList(): JSX.Element {
+  const {limitedSortedReviews} = useAppSelector(getLimitedSortedReviews);
 
-export default function ReviewsList({reviews}: ReviewsListProps): JSX.Element {
   return (
-    <ul className="reviews__list">
-      {reviews.map((review) => (
-        <ReviewsItem key={review.id} review={review}/>
-      ))}
-    </ul>
+    <>
+      <h2 className="reviews__title">
+      Reviews · <span className="reviews__amount">{limitedSortedReviews.length}</span>
+      </h2>
+      <ul className="reviews__list">
+        {limitedSortedReviews.map((review) => (
+          <ReviewsItem key={review.id} review={review}/>
+        ))}
+      </ul>
+    </>
   );
 }

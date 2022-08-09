@@ -1,16 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { LoadingStatus, NameSpace } from '../../const';
-import { Properties } from '../../types/property';
-import { fetchPropertiesAction } from '../api-actions';
+import { Properties, Property } from '../../types/property';
+import { fetchPropertiesAction, fetchPropertiesNearbyAction, fetchPropertyAction } from '../api-actions';
 
 type PropertiesSlice = {
   properties: Properties;
-  loadingStatus: LoadingStatus;
+  property?: Property
+  propertiesNearby: Properties;
+  propertiesLoadingStatus: LoadingStatus;
+  propertyLoadingStatus: LoadingStatus;
 }
 
 const initialState: PropertiesSlice = {
   properties: [],
-  loadingStatus: LoadingStatus.Idle,
+  propertiesNearby: [],
+  propertiesLoadingStatus: LoadingStatus.Idle,
+  propertyLoadingStatus: LoadingStatus.Idle
 };
 
 export const propertiesSlice = createSlice({
@@ -20,14 +25,27 @@ export const propertiesSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchPropertiesAction.pending, (state) => {
-        state.loadingStatus = LoadingStatus.Pending;
+        state.propertiesLoadingStatus = LoadingStatus.Pending;
       })
       .addCase(fetchPropertiesAction.fulfilled, (state, action) => {
         state.properties = action.payload;
-        state.loadingStatus = LoadingStatus.Fulfilled;
+        state.propertiesLoadingStatus = LoadingStatus.Fulfilled;
       })
       .addCase(fetchPropertiesAction.rejected, (state) => {
-        state.loadingStatus = LoadingStatus.Rejected;
+        state.propertiesLoadingStatus = LoadingStatus.Rejected;
+      })
+      .addCase(fetchPropertyAction.pending, (state) => {
+        state.propertyLoadingStatus = LoadingStatus.Pending;
+      })
+      .addCase(fetchPropertyAction.fulfilled, (state, action) => {
+        state.property = action.payload;
+        state.propertyLoadingStatus = LoadingStatus.Fulfilled;
+      })
+      .addCase(fetchPropertyAction.rejected, (state) => {
+        state.propertyLoadingStatus = LoadingStatus.Rejected;
+      })
+      .addCase(fetchPropertiesNearbyAction.fulfilled, (state, action) => {
+        state.propertiesNearby = action.payload;
       });
   },
 });

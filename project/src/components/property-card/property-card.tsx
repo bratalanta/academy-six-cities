@@ -15,7 +15,8 @@ export default function PropertyCard(props: PropertyCardProps): JSX.Element {
     property,
     cardClassName,
     onCardMouseEnter,
-    onCardMouseLeave} = props;
+    onCardMouseLeave
+  } = props;
   const {
     id,
     isPremium,
@@ -23,7 +24,8 @@ export default function PropertyCard(props: PropertyCardProps): JSX.Element {
     price,
     rating,
     title,
-    type} = property;
+    type
+  } = property;
 
   return (
     <article
@@ -32,9 +34,9 @@ export default function PropertyCard(props: PropertyCardProps): JSX.Element {
       onMouseLeave={() => onCardMouseLeave?.()}
     >
       {isPremium &&
-      <div className="place-card__mark">
-        <span>Premium</span>
-      </div>}
+          <div className="place-card__mark">
+            <span>Premium</span>
+          </div>}
       <div className={`${cardClassName}__image-wrapper place-card__image-wrapper`}>
         <Link to={ generatePath(AppRoute.Property, { id: `${id}`}) }>
           <img
@@ -73,7 +75,9 @@ export default function PropertyCard(props: PropertyCardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={ generatePath(AppRoute.Property, { id: `${id}`}) }>
+          <Link
+            to={ generatePath(AppRoute.Property, { id: `${id}`}) }
+          >
             {title}
           </Link>
         </h2>
