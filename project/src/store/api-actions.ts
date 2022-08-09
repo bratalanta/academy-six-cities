@@ -10,8 +10,6 @@ import { AppDispatch, State } from '../types/state';
 import { UserData } from '../types/user-data';
 import { redirectToPreviousRoute, redirectToRoute } from './actions';
 
-const NOT_FOUND_MESSAGE = 'Request failed with status code 400';
-
 export const fetchPropertiesAction = createAsyncThunk<Properties, undefined, {
   dispatch: AppDispatch,
   state: State,
@@ -62,12 +60,8 @@ export const fetchReviewsAction = createAsyncThunk<Reviews | undefined, number, 
       const {data} = await api.get<Reviews>(`${APIRoute.Reviews}/${propertyId}`);
 
       return data;
-    } catch (e) {
-      if (e instanceof Error) {
-        if (e.message === NOT_FOUND_MESSAGE) {
-          dispatch(redirectToRoute(AppRoute.NotFound));
-        }
-      }
+    } catch {
+      dispatch(redirectToRoute(AppRoute.NotFound));
     }
   }
 );
