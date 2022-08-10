@@ -31,10 +31,10 @@ export default function PropertyForm({propertyId}: PropertyFormProps): JSX.Eleme
     {
       comment: '',
       rating: 0,
-      checkedField: 0
     }
   );
   const dispatch = useAppDispatch();
+
   const {
     isPostingStatusFulfilled,
     isPostingStatusPending,
@@ -46,7 +46,6 @@ export default function PropertyForm({propertyId}: PropertyFormProps): JSX.Eleme
       setFormData({
         comment: '',
         rating: 0,
-        checkedField: 0
       });
     }
   }, [isPostingStatusFulfilled]);
@@ -55,12 +54,8 @@ export default function PropertyForm({propertyId}: PropertyFormProps): JSX.Eleme
     formData.comment.length >= CommentLength.Max ||
     formData.rating === 0;
 
-  const fieldChangeHandle = (name: string, value: number | string) => {
-    if (typeof value === 'number') {
-      setFormData({...formData, [name]: value, checkedField: value});
-    } else {
-      setFormData({...formData, [name]: value});
-    }
+  const handleFieldChange = (name: string, value: number | string) => {
+    setFormData({...formData, [name]: value});
   };
 
   const handleSubmit = (evt: FormEvent) => {
@@ -79,8 +74,8 @@ export default function PropertyForm({propertyId}: PropertyFormProps): JSX.Eleme
             key={value}
             value={value}
             title={title}
-            fieldChangeHandle={fieldChangeHandle}
-            checkedField={formData.checkedField}
+            handleFieldChange={handleFieldChange}
+            currentRating={formData.rating}
           />
         )
         )}
@@ -93,7 +88,7 @@ export default function PropertyForm({propertyId}: PropertyFormProps): JSX.Eleme
         value={formData.comment}
         onInput={(({currentTarget}) => {
           const {name, value} = currentTarget;
-          fieldChangeHandle(name, value);
+          handleFieldChange(name, value);
         }
         )}
       />
