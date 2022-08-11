@@ -20,9 +20,7 @@ export const reviewsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchReviewsAction.fulfilled, (state, action) => {
-        if (action.payload) {
-          state.reviews = action.payload;
-        }
+        state.reviews = action.payload;
       })
       .addCase(postReviewAction.fulfilled, (state, action) => {
         state.postingStatus = LoadingStatus.Fulfilled;

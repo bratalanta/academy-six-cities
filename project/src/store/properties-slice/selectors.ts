@@ -32,16 +32,27 @@ export const getPropertyLoadingStatus = createSelector(
     }
   ));
 
-export const getMemoizedCurrentProperties = createSelector(
+export const getCurrentFilteredProperties = createSelector(
   [
     selectProperties,
     selectCurrentCity,
-    selectCurrentSortOption
   ],
-  (properties, currentCity, currentSortOption) => {
+  (properties, currentCity) => {
     const currentProperties = properties.filter(({city}) => currentCity.name === city.name);
-    const currentSortedProperties = getSortedProperties(currentSortOption, currentProperties);
+    return currentProperties;
+  }
+);
 
-    return {currentProperties, currentSortedProperties};
+export const getCurrentSortedProperties = createSelector(
+  [
+    selectCurrentSortOption,
+    getCurrentFilteredProperties
+  ],
+  (currentSortOption, currentProperties) => {
+    const currentSortedProperties = getSortedProperties(
+      currentSortOption, currentProperties
+    );
+
+    return currentSortedProperties;
   }
 );

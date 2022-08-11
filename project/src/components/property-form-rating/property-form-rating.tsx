@@ -1,8 +1,10 @@
+import { ChangeEvent } from 'react';
+
 type PropertyFormRatingProps = {
   value: number;
   title: string;
-  handleFieldChange: (name: string, value: number | string) => void;
-  currentRating: number;
+  handleFieldChange: (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  currentRating: string;
 }
 
 export default function PropertyFormRating(
@@ -17,8 +19,8 @@ export default function PropertyFormRating(
         value={value}
         id={`${value}-stars`}
         type="radio"
-        onChange={({currentTarget}) => handleFieldChange(currentTarget.name, value)}
-        checked={value === currentRating}
+        onChange={handleFieldChange}
+        checked={value === +currentRating}
       />
       <label
         htmlFor={`${value}-stars`}

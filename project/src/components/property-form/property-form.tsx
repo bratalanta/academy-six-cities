@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postReviewAction } from '../../store/api-actions';
 import { getPostingStatus } from '../../store/reviews-slice/selectors';
@@ -30,7 +30,7 @@ export default function PropertyForm({propertyId}: PropertyFormProps): JSX.Eleme
   const [formData, setFormData] = useState<FormState>(
     {
       comment: '',
-      rating: 0,
+      rating: '0',
     }
   );
   const dispatch = useAppDispatch();
@@ -45,16 +45,17 @@ export default function PropertyForm({propertyId}: PropertyFormProps): JSX.Eleme
     if (isPostingStatusFulfilled) {
       setFormData({
         comment: '',
-        rating: 0,
+        rating: '0'
       });
     }
   }, [isPostingStatusFulfilled]);
 
   const isSubmitDisabled = formData.comment.length <= CommentLength.Min ||
     formData.comment.length >= CommentLength.Max ||
-    formData.rating === 0;
+    formData.rating === '0';
 
-  const handleFieldChange = (name: string, value: number | string) => {
+  const handleFieldChange = ({target}: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const {name, value} = target;
     setFormData({...formData, [name]: value});
   };
 
@@ -86,11 +87,7 @@ export default function PropertyForm({propertyId}: PropertyFormProps): JSX.Eleme
         name="comment"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={formData.comment}
-        onInput={(({currentTarget}) => {
-          const {name, value} = currentTarget;
-          handleFieldChange(name, value);
-        }
-        )}
+        onChange={handleFieldChange}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">

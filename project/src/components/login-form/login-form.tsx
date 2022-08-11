@@ -83,7 +83,11 @@ export default function LoginForm() {
   return (
     <section className="login">
       <h1 className="login__title">Sign in</h1>
-      <form className="login__form form" onSubmit={handleSubmit} noValidate>
+      <form
+        className="login__form form"
+        onSubmit={handleSubmit}
+        noValidate
+      >
         {
           Object.entries(InputFields).map(([name, label]) => {
             const inputWrapperCn = cn(

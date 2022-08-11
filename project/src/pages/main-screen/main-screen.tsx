@@ -8,7 +8,7 @@ import SortOptionsList from '../../components/sort-options-list/sort-options-lis
 import ErrorMessage from '../../components/error-message/error-message';
 import Header from '../../components/header/header';
 import { selectCurrentCity, selectCurrentSortOption } from '../../store/app-slice/selectors';
-import { getMemoizedCurrentProperties, getPropertiesLoadingStatus } from '../../store/properties-slice/selectors';
+import { getCurrentFilteredProperties, getCurrentSortedProperties, getPropertiesLoadingStatus } from '../../store/properties-slice/selectors';
 import PrimaryLoader from '../../components/primary-loader/primary-loader';
 
 export default function MainScreen(): JSX.Element {
@@ -16,7 +16,8 @@ export default function MainScreen(): JSX.Element {
   const activeSortOption = useAppSelector(selectCurrentSortOption);
   const {isPropertiesStatusPending, isPropertiesStatusRejected} = useAppSelector(getPropertiesLoadingStatus);
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
-  const {currentProperties, currentSortedProperties} = useAppSelector(getMemoizedCurrentProperties);
+  const currentProperties = useAppSelector(getCurrentFilteredProperties);
+  const currentSortedProperties = useAppSelector(getCurrentSortedProperties);
 
   if (isPropertiesStatusPending) {
     return (
