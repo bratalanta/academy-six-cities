@@ -1,8 +1,15 @@
-import { useState } from 'react';
-import { FormState, Ratings } from '../../types/property-form';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { postReviewAction } from '../../store/api-actions';
+import { getPostingStatus } from '../../store/reviews-slice/selectors';
+import { FormState } from '../../types/property-form';
+import ButtonLoader from '../button-loader/button-loader';
 import PropertyFormRating from '../property-form-rating/property-form-rating';
+import styles from '../property-form/property-form.module.css';
 
-const ratings: Ratings = [
+type Ratings = readonly [number, string][];
+
+const RATINGS: Ratings = [
   [5, 'perfect'],
   [4, 'good'],
   [3, 'not bad'],
@@ -15,43 +22,72 @@ const enum CommentLength {
   Max = 300
 }
 
-export default function PropertyForm() {
+type PropertyFormProps = {
+  propertyId: number;
+}
+
+export default function PropertyForm({propertyId}: PropertyFormProps): JSX.Element {
   const [formData, setFormData] = useState<FormState>(
     {
       comment: '',
-      rating: 0
+      rating: '0',
     }
   );
+  const dispatch = useAppDispatch();
+
+  const {
+    isPostingStatusFulfilled,
+    isPostingStatusPending,
+    isPostingStatusRejected
+  } = useAppSelector(getPostingStatus);
+
+  useEffect(() => {
+    if (isPostingStatusFulfilled) {
+      setFormData({
+        comment: '',
+        rating: '0'
+      });
+    }
+  }, [isPostingStatusFulfilled]);
+
   const isSubmitDisabled = formData.comment.length <= CommentLength.Min ||
     formData.comment.length >= CommentLength.Max ||
-    formData.rating === 0;
+    formData.rating === '0';
 
-  const fieldChangeHandle = (name: string, value: number | string) => {
+  const handleFieldChange = ({target}: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const {name, value} = target;
     setFormData({...formData, [name]: value});
   };
 
+  const handleSubmit = (evt: FormEvent) => {
+    evt.preventDefault();
+    dispatch(postReviewAction({...formData, propertyId}));
+  };
+
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" onSubmit={handleSubmit}>
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
-      <div className="reviews__rating-form form__rating">
-        {ratings.map(([value, title]) => (
-          <PropertyFormRating key={value} value={value} title={title} fieldChangeHandle={fieldChangeHandle}/>
+      <div className={`reviews__rating-form form__rating ${isPostingStatusRejected && styles.horizontalShake}`}>
+        {RATINGS.map(([value, title]) => (
+          <PropertyFormRating
+            key={value}
+            value={value}
+            title={title}
+            handleFieldChange={handleFieldChange}
+            currentRating={formData.rating}
+          />
         )
         )}
       </div>
       <textarea
-        className="reviews__textarea form__textarea"
+        className={`reviews__textarea form__textarea ${isPostingStatusRejected && styles.horizontalShake}`}
         id="review"
         name="comment"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={formData.comment}
-        onInput={(({currentTarget}) => {
-          const {name, value} = currentTarget;
-          fieldChangeHandle(name, value);
-        }
-        )}
+        onChange={handleFieldChange}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -63,9 +99,9 @@ export default function PropertyForm() {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={isSubmitDisabled}
+          disabled={isSubmitDisabled || isPostingStatusPending}
         >
-          Submit
+          {isPostingStatusPending ? <ButtonLoader /> : 'Submit'}
         </button>
       </div>
     </form>

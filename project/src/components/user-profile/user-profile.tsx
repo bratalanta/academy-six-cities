@@ -1,13 +1,18 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { SkewLoader } from 'react-spinners';
+import { AppRoute, Loader } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
+import { authSelector, selectUserInfo } from '../../store/auth-slice/selectors';
+import { selectProperties } from '../../store/properties-slice/selectors';
+import styles from '../user-profile/user-profile.module.css';
 
 export default function UserProfile() {
   const dispatch = useAppDispatch();
-  const {userInfo} = useAppSelector((state) => state);
-  const favoriteProperties = useAppSelector((state) => state.properties)
+  const userInfo = useAppSelector(selectUserInfo);
+  const favoriteProperties = useAppSelector(selectProperties)
     .filter(({isFavorite}) => isFavorite);
+  const {isLogoutStatusPending} = useAppSelector(authSelector);
 
   return (
     <nav className="header__nav">
@@ -31,10 +36,25 @@ export default function UserProfile() {
                 className="header__nav-link"
                 onClick={(evt) => {
                   evt.preventDefault();
+
+                  if (isLogoutStatusPending) {
+                    return;
+                  }
+
                   dispatch(logoutAction());
                 }}
               >
-                <span className="header__signout">Sign out</span>
+                <span className={`header__signout ${styles.signOut}`}>
+                  Sign out
+                  {
+                    <SkewLoader
+                      size={Loader.Logout.size}
+                      loading={isLogoutStatusPending}
+                      color={Loader.Logout.color}
+                      className={styles.loader}
+                    />
+                  }
+                </span>
               </a>
               :
               <Link

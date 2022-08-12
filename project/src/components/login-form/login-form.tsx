@@ -1,13 +1,10 @@
-import { ChangeEvent, FormEvent, useMemo, useState } from 'react';
-import { useAppDispatch } from '../../hooks';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
 import styles from '../login-form/login-form.module.css';
-import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
 import cn from 'classnames';
-import { setCity } from '../../store/actions';
-import { getRandomCity } from '../../utils';
-// import useEffectOnce from '../../hooks/use-effect-once';
+import { authSelector } from '../../store/auth-slice/selectors';
+import ButtonLoader from '../button-loader/button-loader';
 
 const InputFields = {
   email: 'E-mail',
@@ -16,7 +13,6 @@ const InputFields = {
 
 type InputName = {
   value: string;
-  touched: boolean;
   errorMessage: string;
   isInputValid: boolean;
 }
@@ -40,7 +36,6 @@ export default function LoginForm() {
     Object.keys(InputFields).reduce<FormState>((acc, name) => {
       acc[name] = {
         value: '',
-        touched: false,
         errorMessage: ErrorMessage[name],
         isInputValid: false
       };
@@ -50,7 +45,7 @@ export default function LoginForm() {
 
   const dispatch = useAppDispatch();
   const [isSubmitButtonPressed, setIsSubmitButtonPressed] = useState(false);
-  const randomCity = useMemo(() => getRandomCity(), []);
+  const {isLoginStatusPending} = useAppSelector(authSelector);
 
   const {email, password} = values;
 
@@ -81,89 +76,72 @@ export default function LoginForm() {
     }));
   };
 
-  const handleBlur = (name: string) => setValues({
-    ...values,
-    [name]: {
-      ...values[name],
-      touched: true
-    }
-  });
-
   const handleButtonClick = () => {
-    email.touched = true;
-    password.touched = true;
     setIsSubmitButtonPressed(true);
   };
 
   return (
-    <main className="page__main page__main--login">
-      <div className="page__login-container container">
-        <section className="login">
-          <h1 className="login__title">Sign in</h1>
-          <form className="login__form form" onSubmit={handleSubmit} noValidate>
-            {
-              Object.entries(InputFields).map(([name, label]) => {
-                const inputWrapperCn = cn(
-                  'login__input-wrapper',
-                  'form__input-wrapper',
-                  styles.inputWrapper
-                );
-                const inputCn = cn(
-                  'login__input',
-                  'form__input',
-                  !values[name].isInputValid && values[name].touched && styles.invalidInput && isSubmitButtonPressed
-                );
+    <section className="login">
+      <h1 className="login__title">Sign in</h1>
+      <form
+        className="login__form form"
+        onSubmit={handleSubmit}
+        noValidate
+      >
+        {
+          Object.entries(InputFields).map(([name, label]) => {
+            const inputWrapperCn = cn(
+              'login__input-wrapper',
+              'form__input-wrapper',
+              styles.inputWrapper
+            );
+            const inputCn = cn(
+              'login__input',
+              'form__input',
+              (!values[name].isInputValid && isSubmitButtonPressed)
+              && styles.invalidInput
+            );
 
-                return (
-                  <div
-                    className={inputWrapperCn}
-                    key={name}
-                  >
-                    <label className="visually-hidden">{label}</label>
-                    <input
-                      className={inputCn}
-                      type={name}
-                      name={name}
-                      value={values[name].value}
-                      placeholder={label}
-                      onBlur={() => handleBlur(name)}
-                      onChange={handleChange}
-                    />
-                    {
-                      !values[name].isInputValid &&
-                      values[name].touched &&
-                      isSubmitButtonPressed &&
-                      <span className={styles.errorMessage}>{values[name].errorMessage}</span>
-                    }
-                  </div>
-                );
-              })
-            }
-            <button
-              className="login__submit form__submit button"
-              type="submit"
-              onClick={() => {
-                if (!isSubmitButtonPressed) {
-                  handleButtonClick();
+            return (
+              <div
+                className={inputWrapperCn}
+                key={name}
+              >
+                <label className="visually-hidden">{label}</label>
+                <input
+                  className={inputCn}
+                  type={name}
+                  name={name}
+                  value={values[name].value}
+                  placeholder={label}
+                  onChange={handleChange}
+                />
+                {
+                  !values[name].isInputValid &&
+                  isSubmitButtonPressed &&
+                  <span className={styles.errorMessage}>{values[name].errorMessage}</span>
                 }
-              }}
-            >
-              Sign in
-            </button>
-          </form>
-        </section>
-        <section className="locations locations--login locations--current">
-          <div className="locations__item">
-            <Link
-              className="locations__item-link"
-              to={AppRoute.Main}
-              onClick={() => dispatch(setCity(randomCity))}
-            >
-              <span>{randomCity.name}</span>
-            </Link>
-          </div>
-        </section>
-      </div>
-    </main>
+              </div>
+            );
+          })
+        }
+        <button
+          className="login__submit form__submit button"
+          type="submit"
+          onClick={() => {
+            if (!isSubmitButtonPressed) {
+              handleButtonClick();
+            }
+          }}
+          disabled={isLoginStatusPending}
+        >
+          {
+            isLoginStatusPending ?
+              <ButtonLoader /> :
+              'Sign in'
+          }
+        </button>
+      </form>
+    </section>
   );
 }

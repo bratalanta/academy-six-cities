@@ -1,12 +1,7 @@
 import { CITIES } from '../../const';
-import { PropertyCity } from '../../types/property';
 import LocationItem from '../location-item/location-item';
 
-type LocationItemListProps = {
-  currentCity: PropertyCity;
-}
-
-export default function LocationItemList({currentCity}: LocationItemListProps): JSX.Element {
+export default function LocationItemList(): JSX.Element {
   return (
     <div className="tabs">
       <section className="locations container">
@@ -16,7 +11,6 @@ export default function LocationItemList({currentCity}: LocationItemListProps): 
               <LocationItem
                 key={city.name}
                 city={city}
-                currentCity={currentCity}
               />
             )
             )}

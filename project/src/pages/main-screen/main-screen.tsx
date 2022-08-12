@@ -1,39 +1,31 @@
 import LocationItemList from '../../components/location-item-list/location-item-list';
 import Map from '../../components/map/map';
 import PropertyList from '../../components/property-list/property-list';
-import { CardClassName, LOADER_COLOR, LOADER_SIZE, PropertiesLoadingStatus, MapContainerClassName } from '../../const';
+import { CardClassName, MapContainerClassName } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { useState } from 'react';
-import { getSortedProperties } from '../../components/sort-options-list/helper';
 import SortOptionsList from '../../components/sort-options-list/sort-options-list';
-import ClipLoader from 'react-spinners/ClipLoader';
-import styles from '../main-screen/main-screen.module.css';
 import ErrorMessage from '../../components/error-message/error-message';
 import Header from '../../components/header/header';
+import { selectCurrentCity, selectCurrentSortOption } from '../../store/app-slice/selectors';
+import { getCurrentFilteredProperties, getCurrentSortedProperties, getPropertiesLoadingStatus } from '../../store/properties-slice/selectors';
+import PrimaryLoader from '../../components/primary-loader/primary-loader';
 
 export default function MainScreen(): JSX.Element {
-  const currentCity = useAppSelector((state) => state.city);
-  const properties = useAppSelector((state) => state.properties);
-  const activeSortOption = useAppSelector((state) => state.activeSortOption);
-  const {propertiesLoadingStatus} = useAppSelector((state) => state);
-
+  const currentCity = useAppSelector(selectCurrentCity);
+  const activeSortOption = useAppSelector(selectCurrentSortOption);
+  const {isPropertiesStatusPending, isPropertiesStatusRejected} = useAppSelector(getPropertiesLoadingStatus);
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
+  const currentProperties = useAppSelector(getCurrentFilteredProperties);
+  const currentSortedProperties = useAppSelector(getCurrentSortedProperties);
 
-  const currentProperties = properties.filter(({city}) => currentCity.name === city.name);
-  const currentSortedProperties = getSortedProperties(activeSortOption, currentProperties);
-
-  if (propertiesLoadingStatus === PropertiesLoadingStatus.Pending) {
+  if (isPropertiesStatusPending) {
     return (
-      <div className={styles.loaderContainer}>
-        <ClipLoader
-          size={LOADER_SIZE}
-          color={LOADER_COLOR}
-        />
-      </div>
+      <PrimaryLoader />
     );
   }
 
-  if (propertiesLoadingStatus === PropertiesLoadingStatus.Rejected) {
+  if (isPropertiesStatusRejected) {
     return (
       <ErrorMessage />
     );
@@ -45,7 +37,7 @@ export default function MainScreen(): JSX.Element {
       <Header />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <LocationItemList currentCity={currentCity}/>
+        <LocationItemList />
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">

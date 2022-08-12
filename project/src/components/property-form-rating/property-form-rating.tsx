@@ -1,10 +1,16 @@
+import { ChangeEvent } from 'react';
+
 type PropertyFormRatingProps = {
   value: number;
   title: string;
-  fieldChangeHandle: (name: string, value: number | string) => void;
+  handleFieldChange: (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  currentRating: string;
 }
 
-export default function PropertyFormRating({value, title, fieldChangeHandle}: PropertyFormRatingProps): JSX.Element {
+export default function PropertyFormRating(
+  {value, title, handleFieldChange, currentRating}: PropertyFormRatingProps
+): JSX.Element {
+
   return (
     <>
       <input
@@ -13,7 +19,8 @@ export default function PropertyFormRating({value, title, fieldChangeHandle}: Pr
         value={value}
         id={`${value}-stars`}
         type="radio"
-        onClick={({currentTarget}) => fieldChangeHandle(currentTarget.name, value)}
+        onChange={handleFieldChange}
+        checked={value === +currentRating}
       />
       <label
         htmlFor={`${value}-stars`}

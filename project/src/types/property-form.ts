@@ -1,6 +1,8 @@
 export type FormState = {
   comment: string;
-  rating: number;
+  rating: string;
 }
 
-export type Ratings = readonly [number, string][];
+export type CreateReviewPayload = {
+  propertyId?: number;
+} & FormState

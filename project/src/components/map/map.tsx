@@ -20,7 +20,7 @@ type MapProps = {
   currentCity: PropertyCity;
   properties: Properties;
   containerClassName: MapContainerClassName;
-  activeCardId?: null | number;
+  activeCardId: null | number;
 };
 
 export default function Map({currentCity, properties, containerClassName, activeCardId}: MapProps): JSX.Element {

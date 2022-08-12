@@ -1,15 +1,16 @@
 import cn from 'classnames';
-import { useAppDispatch } from '../../hooks';
-import { setCity } from '../../store/actions';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { setCurrentCity } from '../../store/app-slice/app-slice';
+import { selectCurrentCity } from '../../store/app-slice/selectors';
 import { PropertyCity } from '../../types/property';
 
 type LocationItemProps = {
   city: PropertyCity;
-  currentCity: PropertyCity;
 }
 
-export default function LocationItem({city, currentCity}: LocationItemProps): JSX.Element {
+export default function LocationItem({city}: LocationItemProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const currentCity = useAppSelector(selectCurrentCity);
 
   const locationClassName = cn(
     'locations__item-link tabs__item',
@@ -20,7 +21,7 @@ export default function LocationItem({city, currentCity}: LocationItemProps): JS
     <li className="locations__item">
       <a
         className={locationClassName}
-        onClick={() => dispatch(setCity(city))}
+        onClick={() => dispatch(setCurrentCity(city))}
       >
         <span>{city.name}</span>
       </a>

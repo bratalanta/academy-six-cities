@@ -23,7 +23,7 @@ export type Property = {
   goods: [string];
   host: PropertyHost;
   id: number;
-  images: [string];
+  images: string[];
   isFavorite: boolean;
   isPremium: boolean;
   location: PropertyLocation;
