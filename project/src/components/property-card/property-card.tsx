@@ -65,10 +65,10 @@ export default function PropertyCard(props: PropertyCardProps): JSX.Element {
             onClick={() => (
               dispatch(changeFavoriteStatusAction(
                 {
-                  status: +!isFavorite,
+                  status: Number(!isFavorite),
                   propertyId: id
-                }))
-            )}
+                }
+              )))}
           >
             <svg
               className="place-card__bookmark-icon"

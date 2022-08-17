@@ -21,12 +21,10 @@ export const favoritesSlice = createSlice({
         state.favorites = action.payload;
       })
       .addCase(changeFavoriteStatusAction.fulfilled, (state, action) => {
-        const propertyIndex = state.favorites.findIndex((property) => property.id === action.payload.id);
-
-        if (propertyIndex > -1) {
-          state.favorites.splice(propertyIndex, 1);
-        } else {
+        if (action.payload.isFavorite) {
           state.favorites.push(action.payload);
+        } else {
+          state.favorites = state.favorites.filter((property) => property.id !== action.payload.id);
         }
       });
   },

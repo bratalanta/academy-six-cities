@@ -15,7 +15,7 @@ export default function FavoritesScreen(): JSX.Element {
         <div className="page__favorites-container container">
           {
             favoriteProperties.length ?
-              <Favorites favoriteProperties={favoriteProperties}/> :
+              <Favorites /> :
               <NoFavorites />
           }
         </div>

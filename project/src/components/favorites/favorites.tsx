@@ -1,24 +1,10 @@
 import { CardClassName } from '../../const';
-import { GroupedProperties, Properties } from '../../types/property';
+import { useAppSelector } from '../../hooks';
+import { getGroupedFavoriteProperties } from '../../store/favorite-slice/selectors';
 import PropertyList from '../property-list/property-list';
 
-type FavoritesProps = {
-  favoriteProperties: Properties;
-}
-
-export default function Favorites({favoriteProperties}: FavoritesProps): JSX.Element {
-  const groupedProperties = favoriteProperties.reduce<GroupedProperties>(
-    (acc, property) => {
-      const {city} = property;
-
-      if (!acc[city.name]) {
-        acc[city.name] = [];
-      }
-
-      acc[city.name].push(property);
-
-      return acc;
-    }, {});
+export default function Favorites(): JSX.Element {
+  const groupedProperties = useAppSelector(getGroupedFavoriteProperties);
 
   return (
     <section className="favorites">

@@ -48,23 +48,25 @@ export const propertiesSlice = createSlice({
         state.propertiesNearby = action.payload;
       })
       .addCase(changeFavoriteStatusAction.fulfilled, (state, action) => {
-        for (const property of state.properties) {
+        state.properties = state.properties.map((property) => {
           if (property.id === action.payload.id) {
             property.isFavorite = action.payload.isFavorite;
-            break;
           }
-        }
 
-        for (const property of state.propertiesNearby) {
+          return property;
+        });
+
+        state.propertiesNearby = state.propertiesNearby.map((property) => {
           if (property.id === action.payload.id) {
             property.isFavorite = action.payload.isFavorite;
-            break;
           }
-        }
 
-        state.property = state.property?.id === action.payload.id ?
-          action.payload :
-          state.property;
+          return property;
+        });
+
+        if (state.property?.id === action.payload.id) {
+          state.property = action.payload;
+        }
       });
   },
 });
