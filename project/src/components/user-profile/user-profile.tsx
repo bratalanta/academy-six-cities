@@ -4,15 +4,22 @@ import { AppRoute, Loader } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
 import { authSelector, selectUserInfo } from '../../store/auth-slice/selectors';
-import { selectProperties } from '../../store/properties-slice/selectors';
+import { selectFavorites } from '../../store/favorite-slice/selectors';
 import styles from '../user-profile/user-profile.module.css';
 
 export default function UserProfile() {
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector(selectUserInfo);
-  const favoriteProperties = useAppSelector(selectProperties)
-    .filter(({isFavorite}) => isFavorite);
+  const favoriteProperties = useAppSelector(selectFavorites);
   const {isLogoutStatusPending} = useAppSelector(authSelector);
+
+  const handleSignOutClick = () => {
+    if (isLogoutStatusPending) {
+      return;
+    }
+
+    dispatch(logoutAction());
+  };
 
   return (
     <nav className="header__nav">
@@ -34,15 +41,7 @@ export default function UserProfile() {
             userInfo ?
               <a
                 className="header__nav-link"
-                onClick={(evt) => {
-                  evt.preventDefault();
-
-                  if (isLogoutStatusPending) {
-                    return;
-                  }
-
-                  dispatch(logoutAction());
-                }}
+                onClick={handleSignOutClick}
               >
                 <span className={`header__signout ${styles.signOut}`}>
                   Sign out

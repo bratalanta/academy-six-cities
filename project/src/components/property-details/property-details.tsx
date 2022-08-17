@@ -1,4 +1,5 @@
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeFavoriteStatusAction } from '../../store/api-actions';
 import { authSelector } from '../../store/auth-slice/selectors';
 import { Property } from '../../types/property';
 import { getCapitalizedWord, getRatingPercentage } from '../../utils';
@@ -6,6 +7,7 @@ import PropertyDetailsGallery from '../property-details-gallery/property-details
 import PropertyDetailsGoods from '../property-details-goods/property-details-goods';
 import PropertyForm from '../property-form/property-form';
 import ReviewsList from '../reviews-list/reviews-list';
+import styles from '../property-details/property-details.module.css';
 
 const MAX_IMAGES_COUNT = 6;
 
@@ -26,10 +28,12 @@ export default function PropertyDetails({property}: ProperyDetailsProps) {
     rating,
     title,
     type,
+    isFavorite,
     id
   } = property;
 
   const {isUserAuthorized} = useAppSelector(authSelector);
+  const dispatch = useAppDispatch();
 
   return (
     <>
@@ -44,8 +48,14 @@ export default function PropertyDetails({property}: ProperyDetailsProps) {
             <h1 className="property__name">
               {title}
             </h1>
-            <button className="property__bookmark-button button" type="button">
-              <svg className="property__bookmark-icon" width={31} height={33}>
+            <button
+              className="property__bookmark-button button"
+              type="button"
+              onClick={() => {
+                dispatch(changeFavoriteStatusAction({status: +!isFavorite, propertyId: id }));
+              }}
+            >
+              <svg className={`property__bookmark-icon ${isFavorite && styles.buttonActive}`} width={31} height={33}>
                 <use xlinkHref="#icon-bookmark" />
               </svg>
               <span className="visually-hidden">To bookmarks</span>

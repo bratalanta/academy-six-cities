@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { LoadingStatus, NameSpace } from '../../const';
 import { Properties, Property } from '../../types/property';
-import { fetchPropertiesAction, fetchPropertiesNearbyAction, fetchPropertyAction } from '../api-actions';
+import { changeFavoriteStatusAction, fetchPropertiesAction, fetchPropertiesNearbyAction, fetchPropertyAction } from '../api-actions';
 
 type PropertiesSlice = {
   properties: Properties;
@@ -15,7 +15,7 @@ const initialState: PropertiesSlice = {
   properties: [],
   propertiesNearby: [],
   propertiesLoadingStatus: LoadingStatus.Idle,
-  propertyLoadingStatus: LoadingStatus.Idle
+  propertyLoadingStatus: LoadingStatus.Idle,
 };
 
 export const propertiesSlice = createSlice({
@@ -46,6 +46,25 @@ export const propertiesSlice = createSlice({
       })
       .addCase(fetchPropertiesNearbyAction.fulfilled, (state, action) => {
         state.propertiesNearby = action.payload;
+      })
+      .addCase(changeFavoriteStatusAction.fulfilled, (state, action) => {
+        for (const property of state.properties) {
+          if (property.id === action.payload.id) {
+            property.isFavorite = action.payload.isFavorite;
+            break;
+          }
+        }
+
+        for (const property of state.propertiesNearby) {
+          if (property.id === action.payload.id) {
+            property.isFavorite = action.payload.isFavorite;
+            break;
+          }
+        }
+
+        state.property = state.property?.id === action.payload.id ?
+          action.payload :
+          state.property;
       });
   },
 });

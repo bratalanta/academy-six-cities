@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ErrorMessage from '../../components/error-message/error-message';
 import Header from '../../components/header/header';
@@ -7,7 +8,6 @@ import PropertiesNearby from '../../components/properties-nearby/properties-near
 import PropertyDetails from '../../components/property-details/property-details';
 import { MapContainerClassName } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import useEffectOnce from '../../hooks/use-effect-once';
 import { fetchPropertyAction } from '../../store/api-actions';
 import { getPropertyLoadingStatus, selectPropertiesNearby, selectProperty } from '../../store/properties-slice/selectors';
 
@@ -15,11 +15,12 @@ export default function PropertyScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const {id} = useParams();
 
-  useEffectOnce(() => {
+  useEffect(() => {
     if (id) {
       dispatch(fetchPropertyAction(+id));
+      window.scrollTo(0, 0);
     }
-  });
+  }, [id]);
 
   const property = useAppSelector(selectProperty);
   const propertiesNearby = useAppSelector(selectPropertiesNearby);

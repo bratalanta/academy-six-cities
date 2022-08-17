@@ -1,5 +1,7 @@
 import { generatePath, Link } from 'react-router-dom';
 import { AppRoute, CardClassName, CardImageSize} from '../../const';
+import { useAppDispatch } from '../../hooks';
+import { changeFavoriteStatusAction } from '../../store/api-actions';
 import { Property } from '../../types/property';
 import { getRatingPercentage } from '../../utils';
 
@@ -24,8 +26,11 @@ export default function PropertyCard(props: PropertyCardProps): JSX.Element {
     price,
     rating,
     title,
-    type
+    type,
+    isFavorite
   } = property;
+
+  const dispatch = useAppDispatch();
 
   return (
     <article
@@ -55,8 +60,15 @@ export default function PropertyCard(props: PropertyCardProps): JSX.Element {
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
           <button
-            className="place-card__bookmark-button button"
+            className={`place-card__bookmark-button button ${isFavorite && 'place-card__bookmark-button--active'}`}
             type="button"
+            onClick={() => (
+              dispatch(changeFavoriteStatusAction(
+                {
+                  status: +!isFavorite,
+                  propertyId: id
+                }))
+            )}
           >
             <svg
               className="place-card__bookmark-icon"
