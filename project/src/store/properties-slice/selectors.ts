@@ -39,6 +39,7 @@ export const getCurrentFilteredProperties = createSelector(
   ],
   (properties, currentCity) => {
     const currentProperties = properties.filter(({city}) => currentCity.name === city.name);
+
     return currentProperties;
   }
 );

@@ -3,6 +3,6 @@ export type FormState = {
   rating: string;
 }
 
-export type CreateReviewPayload = {
+export type PostReviewPayload = {
   propertyId?: number;
 } & FormState

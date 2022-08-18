@@ -5,8 +5,9 @@ import { toast } from 'react-toastify';
 import { APIRoute, AppRoute } from '../const';
 import { dropToken, saveToken } from '../services/token';
 import { AuthData } from '../types/auth-data';
+import { ChangeFavoriteStatusPayload } from '../types/favorites-data';
 import { Properties, Property } from '../types/property';
-import { CreateReviewPayload } from '../types/property-form';
+import { PostReviewPayload } from '../types/property-form';
 import { Reviews } from '../types/review';
 import { AppDispatch, State } from '../types/state';
 import { UserData } from '../types/user-data';
@@ -63,7 +64,7 @@ export const fetchPropertiesNearbyAction = createAsyncThunk<Properties, number, 
   state: State,
   extra: AxiosInstance
 }>(
-  'nearby/fetchPropertiesNearby',
+  'hotels/fetchPropertiesNearby',
   async (id, {extra: api}) => {
     try {
       const {data} = await api.get<Properties>(`${APIRoute.Properties}/${id}/nearby`);
@@ -76,6 +77,41 @@ export const fetchPropertiesNearbyAction = createAsyncThunk<Properties, number, 
         } else {
           handleError(err);
         }
+      }
+
+      throw err;
+    }
+  }
+);
+
+export const fetchFavoritesAction = createAsyncThunk<Properties, undefined, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'favorite/fetchFavorites',
+  async (_, {dispatch, extra: api}) => {
+    const {data} = await api.get<Properties>(APIRoute.Favorites);
+
+    return data;
+  }
+);
+
+export const changeFavoriteStatusAction = createAsyncThunk<Property, ChangeFavoriteStatusPayload, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'favorite/changeFavoriteStatus',
+  async ({status, propertyId}, {dispatch, extra: api}) => {
+    try {
+      const {data} = await api.post<Property>(`${APIRoute.Favorites}/${propertyId}/${status}`);
+
+      return data;
+    } catch(err) {
+      if (axios.isAxiosError(err) && err.response) {
+        dispatch(redirectToRoute(AppRoute.Login));
+        handleError(err);
       }
 
       throw err;
@@ -108,7 +144,7 @@ export const fetchReviewsAction = createAsyncThunk<Reviews, number, {
   }
 );
 
-export const postReviewAction = createAsyncThunk<Reviews, CreateReviewPayload, {
+export const postReviewAction = createAsyncThunk<Reviews, PostReviewPayload, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
@@ -127,8 +163,12 @@ export const checkAuthAction = createAsyncThunk<UserData, undefined, {
   extra: AxiosInstance
 }>(
   'user/checkAuth',
-  async (_, {extra: api}) => {
+  async (_, {dispatch, extra: api}) => {
     const {data} = await api.get<UserData>(APIRoute.Login);
+
+    if (data) {
+      dispatch(fetchFavoritesAction());
+    }
 
     return data;
   }
@@ -145,6 +185,8 @@ export const loginAction = createAsyncThunk<UserData, AuthData, {
       const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
       saveToken(data.token);
       dispatch(redirectToPreviousRoute());
+      dispatch(fetchPropertiesAction());
+      dispatch(fetchFavoritesAction());
 
       return data;
     } catch(err) {
@@ -172,6 +214,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
       await api.delete(APIRoute.Logout);
       dropToken();
       dispatch(redirectToRoute(AppRoute.Main));
+      dispatch(fetchPropertiesAction());
     } catch(err) {
       if (axios.isAxiosError(err) && err.response) {
         if (err.response.status === StatusCodes.NOT_FOUND) {

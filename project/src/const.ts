@@ -127,7 +127,8 @@ export const enum NameSpace {
   Auth = 'authorization',
   Properties = 'hotels',
   Reviews = 'comments',
-  App = 'app'
+  App = 'app',
+  Favorites = 'favorite'
 }
 
 export const MAX_REVIEW_RATING = 5;
