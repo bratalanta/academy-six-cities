@@ -1,7 +1,7 @@
 import { CITIES, MAX_REVIEW_RATING } from './const';
 import dayjs from 'dayjs';
 import { Review } from './types/review';
-import { PropertyCity } from './types/property';
+import { Property, PropertyCity } from './types/property';
 
 export const getRatingPercentage = (rating: number): string => `${rating / MAX_REVIEW_RATING * 100 }%`;
 
@@ -14,3 +14,11 @@ export const getRandomInteger = (min: number, max: number) => Math.floor(Math.ra
 export const getRandomCity = (): PropertyCity => CITIES[getRandomInteger(0, CITIES.length - 1)];
 
 export const getCapitalizedWord = (word: string) => word.charAt(0).toUpperCase() + word.slice(1);
+
+export const changeFavoritePropertyStatus = (oldProperty: Property, newProperty: Property): Property => {
+  if (oldProperty.id === newProperty.id) {
+    oldProperty.isFavorite = newProperty.isFavorite;
+  }
+
+  return oldProperty;
+};

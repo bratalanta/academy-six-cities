@@ -8,8 +8,7 @@ import PropertyDetailsGoods from '../property-details-goods/property-details-goo
 import PropertyForm from '../property-form/property-form';
 import ReviewsList from '../reviews-list/reviews-list';
 import styles from '../property-details/property-details.module.css';
-
-const MAX_IMAGES_COUNT = 6;
+import { MAX_IMAGES_COUNT } from '../../const';
 
 type ProperyDetailsProps = {
   property: Property;

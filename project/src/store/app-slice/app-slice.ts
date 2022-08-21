@@ -3,6 +3,16 @@ import { DEFAULT_CITY, NameSpace, SortOption } from '../../const';
 import { PropertyCity } from '../../types/property';
 import { OptionValue } from '../../types/sort';
 
+type SetCurrentSortOptionAction = {
+  payload: OptionValue;
+  type: string;
+}
+
+type SetCurrentCityAction = {
+  payload: PropertyCity;
+  type: string;
+}
+
 type InitialState = {
   currentCity: PropertyCity;
   currentSortOption: OptionValue;
@@ -17,10 +27,10 @@ export const appSlice = createSlice({
   name: NameSpace.App,
   initialState,
   reducers: {
-    setCurrentCity: (state, action) => {
+    setCurrentCity: (state, action: SetCurrentCityAction) => {
       state.currentCity = action.payload;
     },
-    setCurrentSortOption: (state, action) => {
+    setCurrentSortOption: (state, action: SetCurrentSortOptionAction) => {
       state.currentSortOption = action.payload;
     }
   },
