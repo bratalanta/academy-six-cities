@@ -3,7 +3,7 @@ import { NameSpace } from '../../const';
 import { Properties } from '../../types/property';
 import { changeFavoriteStatusAction, fetchFavoritesAction } from '../api-actions';
 
-type FavoritesSlice = {
+export type FavoritesSlice = {
   favorites: Properties;
 }
 

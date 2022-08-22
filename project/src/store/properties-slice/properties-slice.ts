@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { LoadingStatus, NameSpace } from '../../const';
 import { Properties, Property } from '../../types/property';
+import { changeFavoritePropertyStatus } from '../../utils';
 import { changeFavoriteStatusAction, fetchPropertiesAction, fetchPropertiesNearbyAction, fetchPropertyAction } from '../api-actions';
 
-type PropertiesSlice = {
+export type PropertiesSlice = {
   properties: Properties;
   property?: Property
   propertiesNearby: Properties;
@@ -48,21 +49,11 @@ export const propertiesSlice = createSlice({
         state.propertiesNearby = action.payload;
       })
       .addCase(changeFavoriteStatusAction.fulfilled, (state, action) => {
-        state.properties = state.properties.map((property) => {
-          if (property.id === action.payload.id) {
-            property.isFavorite = action.payload.isFavorite;
-          }
+        state.properties = state.properties
+          .map((property) => changeFavoritePropertyStatus(property, action.payload));
 
-          return property;
-        });
-
-        state.propertiesNearby = state.propertiesNearby.map((property) => {
-          if (property.id === action.payload.id) {
-            property.isFavorite = action.payload.isFavorite;
-          }
-
-          return property;
-        });
+        state.propertiesNearby = state.propertiesNearby
+          .map((property) => changeFavoritePropertyStatus(property, action.payload));
 
         if (state.property?.id === action.payload.id) {
           state.property = action.payload;

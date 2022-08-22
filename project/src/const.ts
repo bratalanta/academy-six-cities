@@ -149,3 +149,5 @@ export const Loader = {
   },
 
 } as const;
+
+export const MAX_IMAGES_COUNT = 6;
