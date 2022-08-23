@@ -17,7 +17,7 @@ export const getCapitalizedWord = (word: string) => word.charAt(0).toUpperCase()
 
 export const changeFavoritePropertyStatus = (oldProperty: Property, newProperty: Property) => {
   if (oldProperty.id === newProperty.id) {
-    oldProperty.isFavorite = newProperty.isFavorite;
+    return newProperty;
   }
 
   return oldProperty;
