@@ -15,9 +15,9 @@ export const getRandomCity = (): PropertyCity => CITIES[getRandomInteger(0, CITI
 
 export const getCapitalizedWord = (word: string) => word.charAt(0).toUpperCase() + word.slice(1);
 
-export const changeFavoritePropertyStatus = (oldProperty: Property, newProperty: Property): Property => {
+export const changeFavoritePropertyStatus = (oldProperty: Property, newProperty: Property) => {
   if (oldProperty.id === newProperty.id) {
-    oldProperty.isFavorite = newProperty.isFavorite;
+    return newProperty;
   }
 
   return oldProperty;
