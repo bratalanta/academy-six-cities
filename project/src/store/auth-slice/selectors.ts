@@ -13,6 +13,7 @@ export const authSelector = createSelector(
     {
       isLogoutStatusPending: LoadingStatus.Pending === logoutStatus,
       isLoginStatusPending: LoadingStatus.Pending === loginStatus,
-      isUserAuthorized: authStatus === AuthorizationStatus.Auth,
+      isUserUnknown: authStatus === AuthorizationStatus.Unknown,
+      isUserAuthorized: authStatus === AuthorizationStatus.Auth
     }
   ));
