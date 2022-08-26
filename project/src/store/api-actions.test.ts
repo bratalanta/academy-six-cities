@@ -226,7 +226,7 @@ describe('Async actions', () => {
 
     const store = mockStore();
 
-    await store.dispatch(postReviewAction({comment, rating}));
+    await store.dispatch(postReviewAction({propertyId, comment, rating}));
 
     const actions = store.getActions().map(({type}) => type);
 
