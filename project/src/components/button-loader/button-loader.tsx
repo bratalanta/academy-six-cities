@@ -6,6 +6,7 @@ export default function ButtonLoader() {
     <BeatLoader
       size={Loader.Button.size}
       color={Loader.Button.color}
+      data-testid={'button-loader'}
     />
   );
 }

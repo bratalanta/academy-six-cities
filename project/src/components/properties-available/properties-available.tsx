@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { CardClassName, MapContainerClassName } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { selectCurrentCity, selectCurrentSortOption } from '../../store/app-slice/selectors';
 import { getCurrentSortedProperties } from '../../store/properties-slice/selectors';
 import { Properties } from '../../types/property';
+import ActiveCardProvider from '../active-card-provider/active-card-provider';
 import Map from '../map/map';
 import PropertyList from '../property-list/property-list';
 import SortOptionsList from '../sort-options-list/sort-options-list';
@@ -15,7 +15,6 @@ type PropertiesAvailableProps = {
 export default function PropertiesAvailable({currentProperties}: PropertiesAvailableProps): JSX.Element {
   const currentCity = useAppSelector(selectCurrentCity);
   const activeSortOption = useAppSelector(selectCurrentSortOption);
-  const [activeCardId, setActiveCardId] = useState<number | null>(null);
   const currentSortedProperties = useAppSelector(getCurrentSortedProperties);
 
   return (
@@ -33,18 +32,17 @@ export default function PropertiesAvailable({currentProperties}: PropertiesAvail
           <PropertyList
             properties={currentSortedProperties}
             cardClassName={CardClassName.Cities}
-            onCardMouseEnter={(id: number) => setActiveCardId(id)}
-            onCardMouseLeave={() => setActiveCardId(null)}
           />
         </div>
       </section>
       <div className="cities__right-section">
-        <Map
-          containerClassName={MapContainerClassName.City}
-          currentCity={currentCity}
-          properties={currentProperties}
-          activeCardId={activeCardId}
-        />
+        <ActiveCardProvider>
+          <Map
+            containerClassName={MapContainerClassName.City}
+            currentCity={currentCity}
+            properties={currentProperties}
+          />
+        </ActiveCardProvider>
       </div>
     </div>
   );

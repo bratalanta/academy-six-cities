@@ -1,23 +1,21 @@
+import { useContext } from 'react';
 import { generatePath, Link } from 'react-router-dom';
 import { AppRoute, CardClassName, CardImageSize} from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { changeFavoriteStatusAction } from '../../store/api-actions';
 import { Property } from '../../types/property';
 import { getRatingPercentage } from '../../utils';
+import { activeCardContext } from '../active-card-provider/active-card-provider';
 
 type PropertyCardProps = {
   property: Property;
   cardClassName: CardClassName;
-  onCardMouseEnter?: (id: number) => void;
-  onCardMouseLeave?: () => void;
 };
 
 export default function PropertyCard(props: PropertyCardProps): JSX.Element {
   const {
     property,
     cardClassName,
-    onCardMouseEnter,
-    onCardMouseLeave
   } = props;
   const {
     id,
@@ -31,12 +29,16 @@ export default function PropertyCard(props: PropertyCardProps): JSX.Element {
   } = property;
 
   const dispatch = useAppDispatch();
+  const [,setActiveCardId] = useContext(activeCardContext);
+
+  const onCardMouseEnter = () => setActiveCardId(id);
+  const onCardMouseLeave = () => setActiveCardId(null);
 
   return (
     <article
       className={`${cardClassName}__card place-card`}
-      onMouseEnter={() => onCardMouseEnter?.(id)}
-      onMouseLeave={() => onCardMouseLeave?.()}
+      onMouseEnter={onCardMouseEnter}
+      onMouseLeave={onCardMouseLeave}
     >
       {isPremium &&
           <div className="place-card__mark">

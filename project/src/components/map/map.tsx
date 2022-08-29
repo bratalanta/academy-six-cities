@@ -1,10 +1,11 @@
 import { Properties, PropertyCity } from '../../types/property';
-import {useRef, useEffect} from 'react';
+import {useRef, useEffect, useContext} from 'react';
 import {Marker, Icon, LayerGroup} from 'leaflet';
 import useMap from '../../hooks/use-map';
 import 'leaflet/dist/leaflet.css';
 import { MapContainerClassName } from '../../const';
 import styles from '../map/map.module.css';
+import { activeCardContext } from '../active-card-provider/active-card-provider';
 
 const defaultCustomIcon = new Icon({
   iconUrl: 'img/pin.svg',
@@ -20,13 +21,13 @@ type MapProps = {
   currentCity: PropertyCity;
   properties: Properties;
   containerClassName: MapContainerClassName;
-  activeCardId: null | number;
 };
 
-export default function Map({currentCity, properties, containerClassName, activeCardId}: MapProps): JSX.Element {
+export default function Map({currentCity, properties, containerClassName}: MapProps): JSX.Element {
   const {location: cityLocation} = currentCity;
   const mapRef = useRef(null);
   const map = useMap(mapRef, cityLocation);
+  const [activeCardId] = useContext(activeCardContext);
 
   useEffect(() => {
     if (map) {

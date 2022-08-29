@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosInstance } from 'axios';
 import { StatusCodes } from 'http-status-codes';
 import { toast } from 'react-toastify';
+import browserHistory from '../browser-history';
 import { APIRoute, AppRoute } from '../const';
 import { dropToken, saveToken } from '../services/token';
 import { AuthData } from '../types/auth-data';
@@ -11,7 +12,7 @@ import { PostReviewPayload } from '../types/property-form';
 import { Reviews } from '../types/review';
 import { AppDispatch, State } from '../types/state';
 import { UserData } from '../types/user-data';
-import { redirectToPreviousRoute, redirectToRoute } from './actions';
+import { redirectToRoute } from './actions';
 import { handleError } from './handle-error';
 
 const WarnMessage = {
@@ -184,7 +185,7 @@ export const loginAction = createAsyncThunk<UserData, AuthData, {
     try {
       const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
       saveToken(data.token);
-      dispatch(redirectToPreviousRoute());
+      browserHistory.back();
       dispatch(fetchPropertiesAction());
       dispatch(fetchFavoritesAction());
 

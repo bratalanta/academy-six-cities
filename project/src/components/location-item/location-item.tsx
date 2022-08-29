@@ -14,7 +14,7 @@ export default function LocationItem({city}: LocationItemProps): JSX.Element {
 
   const locationClassName = cn(
     'locations__item-link tabs__item',
-    `${currentCity.name === city.name && 'tabs__item--active'}`
+    {'tabs__item--active': currentCity.name === city.name},
   );
 
   return (

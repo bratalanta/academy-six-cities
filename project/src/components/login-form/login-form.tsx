@@ -98,8 +98,7 @@ export default function LoginForm() {
             const inputCn = cn(
               'login__input',
               'form__input',
-              (!values[name].isInputValid && isSubmitButtonPressed)
-              && styles.invalidInput
+              {[styles.invalidInput]: !values[name].isInputValid && isSubmitButtonPressed},
             );
 
             return (
@@ -134,6 +133,7 @@ export default function LoginForm() {
             }
           }}
           disabled={isLoginStatusPending}
+          data-testid={'submit'}
         >
           {
             isLoginStatusPending ?

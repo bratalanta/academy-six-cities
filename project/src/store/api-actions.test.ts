@@ -7,7 +7,7 @@ import {changeFavoriteStatusAction, checkAuthAction, fetchFavoritesAction, fetch
 import {APIRoute} from '../const';
 import {State} from '../types/state';
 import { AuthData } from '../types/auth-data';
-import { redirectToPreviousRoute, redirectToRoute } from './actions';
+import { redirectToRoute } from './actions';
 import { makeFakeProperty, makeFakeReview } from '../mocks';
 import { ChangeFavoriteStatusPayload } from '../types/favorites-data';
 import { PostReviewPayload } from '../types/property-form';
@@ -45,7 +45,7 @@ describe('Async actions', () => {
       ]);
     });
 
-  it('should dispatch redirectToPreviousRoute, fetchPropertiesAction, fetchFavoritesAction when POST /login',
+  it('should dispatch fetchPropertiesAction, fetchFavoritesAction when POST /login',
     async () => {
       const fakeUser: AuthData = {email: 'test@test.ru', password: '1q'};
 
@@ -63,7 +63,6 @@ describe('Async actions', () => {
 
       expect(actions).toEqual([
         loginAction.pending.type,
-        redirectToPreviousRoute.type,
         fetchPropertiesAction.pending.type,
         fetchFavoritesAction.pending.type,
         loginAction.fulfilled.type

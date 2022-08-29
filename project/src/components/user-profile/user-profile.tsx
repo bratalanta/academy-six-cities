@@ -22,12 +22,13 @@ export default function UserProfile() {
   };
 
   return (
-    <nav className="header__nav">
+    <nav className="header__nav" data-testid={'user'}>
       <ul className="header__nav-list">
         <li className="header__nav-item user">
           <Link
             className="header__nav-link header__nav-link--profile"
             to={AppRoute.Favorites}
+            data-testid={'favorites-link'}
           >
             <div className="header__avatar-wrapper user__avatar-wrapper"/>
             <span className="header__user-name user__name">
@@ -42,6 +43,7 @@ export default function UserProfile() {
               <a
                 className="header__nav-link"
                 onClick={handleSignOutClick}
+                data-testid={'signout-link'}
               >
                 <span className={`header__signout ${styles.signOut}`}>
                   Sign out
@@ -59,6 +61,7 @@ export default function UserProfile() {
               <Link
                 className="header__nav-link"
                 to={AppRoute.Login}
+                data-testid={'signin-link'}
               >
                 <span className="header__login">Sign in</span>
               </Link>

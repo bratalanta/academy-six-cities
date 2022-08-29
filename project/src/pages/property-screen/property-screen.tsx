@@ -48,7 +48,6 @@ export default function PropertyScreen(): JSX.Element {
             currentCity={property.city}
             properties={propertiesNearby.concat(property)}
             containerClassName={MapContainerClassName.Property}
-            activeCardId={property.id}
           />
         </section>
         <PropertiesNearby properties={propertiesNearby}/>

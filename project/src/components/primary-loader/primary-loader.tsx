@@ -8,6 +8,7 @@ export default function PrimaryLoader() {
       <ClipLoader
         size={Loader.Primary.size}
         color={Loader.Primary.color}
+        data-testid={'primary-loader'}
       />
     </div>
   );
