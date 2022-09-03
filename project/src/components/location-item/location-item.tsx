@@ -22,6 +22,7 @@ export default function LocationItem({city}: LocationItemProps): JSX.Element {
       <a
         className={locationClassName}
         onClick={() => dispatch(setCurrentCity(city))}
+        data-testid={'location-link'}
       >
         <span>{city.name}</span>
       </a>

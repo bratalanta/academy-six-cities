@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeFavoriteStatusAction } from '../../store/api-actions';
 import { authSelector } from '../../store/auth-slice/selectors';
 import { Property } from '../../types/property';
-import { getCapitalizedWord, getRatingPercentage } from '../../utils';
+import { getCapitalizedWord, getRatingPercentage } from '../../utils/utils';
 import PropertyDetailsGallery from '../property-details-gallery/property-details-gallery';
 import PropertyDetailsGoods from '../property-details-goods/property-details-goods';
 import PropertyForm from '../property-form/property-form';
@@ -50,6 +50,7 @@ export default function PropertyDetails({property}: ProperyDetailsProps) {
             <button
               className="property__bookmark-button button"
               type="button"
+              data-testid="change-button"
               onClick={() => {
                 dispatch(changeFavoriteStatusAction({status: +!isFavorite, propertyId: id }));
               }}

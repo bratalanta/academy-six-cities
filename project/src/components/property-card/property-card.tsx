@@ -1,11 +1,10 @@
-import { useContext } from 'react';
 import { generatePath, Link } from 'react-router-dom';
 import { AppRoute, CardClassName, CardImageSize} from '../../const';
+import { useActiveCardId } from '../../contexts/active-card-provider/active-card-provider';
 import { useAppDispatch } from '../../hooks';
 import { changeFavoriteStatusAction } from '../../store/api-actions';
 import { Property } from '../../types/property';
-import { getRatingPercentage } from '../../utils';
-import { activeCardContext } from '../active-card-provider/active-card-provider';
+import { getRatingPercentage } from '../../utils/utils';
 
 type PropertyCardProps = {
   property: Property;
@@ -29,16 +28,13 @@ export default function PropertyCard(props: PropertyCardProps): JSX.Element {
   } = property;
 
   const dispatch = useAppDispatch();
-  const [,setActiveCardId] = useContext(activeCardContext);
-
-  const onCardMouseEnter = () => setActiveCardId(id);
-  const onCardMouseLeave = () => setActiveCardId(null);
+  const {changeActiveCardId} = useActiveCardId();
 
   return (
     <article
       className={`${cardClassName}__card place-card`}
-      onMouseEnter={onCardMouseEnter}
-      onMouseLeave={onCardMouseLeave}
+      onMouseEnter={() => changeActiveCardId(id)}
+      onMouseLeave={() => changeActiveCardId(null)}
     >
       {isPremium &&
           <div className="place-card__mark">
@@ -64,6 +60,7 @@ export default function PropertyCard(props: PropertyCardProps): JSX.Element {
           <button
             className={`place-card__bookmark-button button ${isFavorite && 'place-card__bookmark-button--active'}`}
             type="button"
+            data-testid="change-button"
             onClick={() => (
               dispatch(changeFavoriteStatusAction(
                 {

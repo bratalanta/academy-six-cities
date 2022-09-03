@@ -31,7 +31,10 @@ export default function SortOptionsList({ activeSortOption, currentCity }: SortO
   ), [currentCity]);
 
   return (
-    <form className="places__sorting" action="#" method="get">
+    <form
+      className="places__sorting"
+      data-testid='sort-form'
+    >
       <span className="places__sorting-caption">Sort by </span>
       <span
         className="places__sorting-type"

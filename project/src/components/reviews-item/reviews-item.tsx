@@ -1,6 +1,6 @@
 import React from 'react';
 import { Review } from '../../types/review';
-import { getHumanizedDate, getRatingPercentage } from '../../utils';
+import { getHumanizedDate, getRatingPercentage } from '../../utils/utils';
 
 type ReviewsItemProps = {
   review: Review;

@@ -11,6 +11,7 @@ export default function PropertyDetailsGoods({goods}: PropertyDetailsGoodsProps)
           <li
             className="property__inside-item"
             key={item}
+            data-testid="good"
           >
             {item}
           </li>

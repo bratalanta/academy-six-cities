@@ -1,6 +1,6 @@
 import { LoadingStatus } from '../../const';
 import { makeFakeProperty } from '../../mocks';
-import { changeFavoritePropertyStatus } from '../../utils';
+import { changeFavoritePropertyStatus } from '../../utils/utils';
 import { changeFavoriteStatusAction, fetchPropertiesAction, fetchPropertiesNearbyAction, fetchPropertyAction } from '../api-actions';
 import { PropertiesSlice, propertiesSlice } from './properties-slice';
 

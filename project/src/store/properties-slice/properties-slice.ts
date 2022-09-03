@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { LoadingStatus, NameSpace } from '../../const';
 import { Properties, Property } from '../../types/property';
-import { changeFavoritePropertyStatus } from '../../utils';
+import { changeFavoritePropertyStatus } from '../../utils/utils';
 import { changeFavoriteStatusAction, fetchPropertiesAction, fetchPropertiesNearbyAction, fetchPropertyAction } from '../api-actions';
 
 export type PropertiesSlice = {

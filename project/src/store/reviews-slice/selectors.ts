@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { LoadingStatus, NameSpace, REVIEWS_LIMIT } from '../../const';
 import { State } from '../../types/state';
-import { sortReviewsByDate } from '../../utils';
+import { sortReviewsByDate } from '../../utils/utils';
 
 export const selectReviews = (state: State) => state[NameSpace.Reviews].reviews;
 export const selectPostingStatus = (state: State) => state[NameSpace.Reviews].postingStatus;

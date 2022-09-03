@@ -29,6 +29,39 @@ describe('Component: LoginForm', () => {
     expect(screen.getByPlaceholderText(/Password/i)).toBeInTheDocument();
   });
 
+  it('should display errors', async () => {
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <LoginForm />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    await userEvent.type(screen.getByPlaceholderText(/E-mail/i), 'test');
+    await userEvent.type(screen.getByPlaceholderText(/Password/i), '1');
+    await userEvent.click(screen.getByTestId('submit'));
+
+    expect(screen.getByText(/Password must be at least 1 number and 1 letter./i)).toBeInTheDocument();
+    expect(screen.getByText(/Please enter a valid email address./i)).toBeInTheDocument();
+  });
+
+  it('should not display errors', async () => {
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <LoginForm />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    await userEvent.type(screen.getByPlaceholderText(/E-mail/i), 'test@test.ru');
+    await userEvent.type(screen.getByPlaceholderText(/Password/i), '1q');
+
+    expect(screen.queryByText(/Password must be at least 1 number and 1 letter./i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Please enter a valid email address./i)).not.toBeInTheDocument();
+  });
+
   it('should dispatch loginAction', async () => {
 
     render(
@@ -43,7 +76,7 @@ describe('Component: LoginForm', () => {
     await userEvent.type(screen.getByPlaceholderText(/Password/i), '1adadadw13q');
     await userEvent.click(screen.getByTestId('submit'));
 
-    const actions = store.getActions();
-    expect(actions[3].type).toBe('user/login/pending');
+    const [action] = store.getActions();
+    expect(action.type).toBe('user/login/pending');
   });
 });

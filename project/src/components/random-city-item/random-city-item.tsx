@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { setCurrentCity } from '../../store/app-slice/app-slice';
-import { getRandomCity } from '../../utils';
+import { getRandomCity } from '../../utils/utils';
 
 export default function RandomCityItem() {
   const dispatch = useAppDispatch();

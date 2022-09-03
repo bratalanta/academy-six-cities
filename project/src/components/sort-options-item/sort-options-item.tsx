@@ -18,6 +18,7 @@ export default function SortOptionsItem({option, activeSortOption, onOptionClick
       className={optionClassName}
       tabIndex={0}
       onClick={() => onOptionClick(option)}
+      data-testid={'sort-change'}
     >
       {option}
     </li>

@@ -1,7 +1,7 @@
-import { CITIES, MAX_REVIEW_RATING } from './const';
+import { CITIES, MAX_REVIEW_RATING } from '../const';
 import dayjs from 'dayjs';
-import { Review } from './types/review';
-import { Property, PropertyCity } from './types/property';
+import { Review } from '../types/review';
+import { Property, PropertyCity } from '../types/property';
 
 export const getRatingPercentage = (rating: number): string => `${rating / MAX_REVIEW_RATING * 100 }%`;
 

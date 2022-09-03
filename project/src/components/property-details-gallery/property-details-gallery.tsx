@@ -12,6 +12,7 @@ export default function PropertyDetailsGallery({images}: PropertyDetailsGalleryP
               className="property__image"
               src={image}
               alt="Photo studio"
+              data-testid="gallery-img"
             />
           </div>
         ))}

@@ -88,6 +88,7 @@ export default function PropertyForm({propertyId}: PropertyFormProps): JSX.Eleme
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={formData.comment}
         onChange={handleFieldChange}
+        data-testid="textarea"
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">

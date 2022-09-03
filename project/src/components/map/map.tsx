@@ -1,11 +1,11 @@
 import { Properties, PropertyCity } from '../../types/property';
-import {useRef, useEffect, useContext} from 'react';
+import {useRef, useEffect} from 'react';
 import {Marker, Icon, LayerGroup} from 'leaflet';
 import useMap from '../../hooks/use-map';
 import 'leaflet/dist/leaflet.css';
 import { MapContainerClassName } from '../../const';
 import styles from '../map/map.module.css';
-import { activeCardContext } from '../active-card-provider/active-card-provider';
+import { useActiveCardId } from '../../contexts/active-card-provider/active-card-provider';
 
 const defaultCustomIcon = new Icon({
   iconUrl: 'img/pin.svg',
@@ -27,7 +27,7 @@ export default function Map({currentCity, properties, containerClassName}: MapPr
   const {location: cityLocation} = currentCity;
   const mapRef = useRef(null);
   const map = useMap(mapRef, cityLocation);
-  const [activeCardId] = useContext(activeCardContext);
+  const {activeCardId} = useActiveCardId();
 
   useEffect(() => {
     if (map) {
