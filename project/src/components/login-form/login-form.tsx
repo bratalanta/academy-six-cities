@@ -81,7 +81,10 @@ export default function LoginForm() {
   };
 
   return (
-    <section className="login">
+    <section
+      className="login"
+      data-testid="login-form"
+    >
       <h1 className="login__title">Sign in</h1>
       <form
         className="login__form form"

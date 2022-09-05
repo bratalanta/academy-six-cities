@@ -9,7 +9,10 @@ export default function RandomCityItem() {
   const randomCity = getRandomCity();
 
   return (
-    <section className="locations locations--login locations--current">
+    <section
+      className="locations locations--login locations--current"
+      data-testid="random-city"
+    >
       <div className="locations__item">
         <Link
           className="locations__item-link"

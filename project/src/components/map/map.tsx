@@ -62,6 +62,7 @@ export default function Map({currentCity, properties, containerClassName}: MapPr
   return (
     <section
       className={`${containerClassName} map ${styles.container}`}
+      data-testid="map"
     >
       <div
         style={{height: '100%'}}

@@ -15,7 +15,7 @@ const store = mockStore({
   }
 });
 
-describe('Component: SortOptionsList', () => {
+describe('Component: RandomCityItem', () => {
 
   it('should render correctly', async () => {
     render(

@@ -19,7 +19,10 @@ export default function PropertiesAvailable({currentProperties}: PropertiesAvail
 
   return (
     <ActiveCardProvider >
-      <div className="cities__places-container container">
+      <div
+        className="cities__places-container container"
+        data-testid="properties-available"
+      >
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
           <b className="places__found">

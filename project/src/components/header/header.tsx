@@ -7,7 +7,10 @@ type HeaderProps = {
 
 export default function Header({isLoginPage}: HeaderProps) {
   return (
-    <header className="header">
+    <header
+      className="header"
+      data-testid="header"
+    >
       <div className="container">
         <div className="header__wrapper">
           <Logo />

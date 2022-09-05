@@ -37,7 +37,10 @@ export default function PropertyDetails({property}: ProperyDetailsProps) {
   return (
     <>
       <PropertyDetailsGallery images={images.slice(0, MAX_IMAGES_COUNT)}/>
-      <div className="property__container container">
+      <div
+        className="property__container container"
+        data-testid="property-details"
+      >
         <div className="property__wrapper">
           {isPremium &&
           <div className="property__mark">

@@ -37,7 +37,9 @@ describe('Component: PropertyList', () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <PropertyList properties={mockProperties} cardClassName={CardClassName.Cities} />
+          <ActiveCardProvider>
+            <PropertyList properties={mockProperties} cardClassName={CardClassName.Cities} />
+          </ActiveCardProvider>
         </MemoryRouter>
       </Provider>
     );

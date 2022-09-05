@@ -7,7 +7,10 @@ export default function Favorites(): JSX.Element {
   const groupedProperties = useAppSelector(getGroupedFavoriteProperties);
 
   return (
-    <section className="favorites">
+    <section
+      className="favorites"
+      data-testid="favorites"
+    >
       <h1 className="favorites__title">Saved listing</h1>
       <ul className="favorites__list">
         {Object.entries(groupedProperties).map(([city, properties]) => (

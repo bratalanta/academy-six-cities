@@ -8,7 +8,10 @@ type PropertiesNearbyProps = {
 
 export default function PropertiesNearby({properties}: PropertiesNearbyProps) {
   return (
-    <div className="container">
+    <div
+      className="container"
+      data-testid="nearby"
+    >
       <section className="near-places places">
         <h2 className="near-places__title">
           Other places in the neighbourhood

@@ -8,7 +8,13 @@ export default function NotFoundScreen(): JSX.Element {
       <div className={styles.content}>
         <h1 className={styles.code}>404</h1>
         <p className={styles.text}>Oopsie! Page is not found</p>
-        <Link className={styles.home} to={AppRoute.Main}>Back to home page</Link>
+        <Link
+          className={styles.home}
+          to={AppRoute.Main}
+          data-testid="not-found-link"
+        >
+          Back to home page
+        </Link>
       </div>
     </div>
   );

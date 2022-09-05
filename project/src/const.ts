@@ -103,6 +103,15 @@ export const CITIES = [
   }
 ] as const;
 
+type Ratings = readonly [number, string][];
+
+export const RATINGS: Ratings = [
+  [5, 'perfect'],
+  [4, 'good'],
+  [3, 'not bad'],
+  [2, 'badly'],
+  [1, 'terribly']
+];
 
 export const enum MapContainerClassName {
   City = 'cities__map',

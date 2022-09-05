@@ -21,6 +21,7 @@ export default function PropertyFormRating(
         type="radio"
         onChange={handleFieldChange}
         checked={value === +currentRating}
+        data-testid="input"
       />
       <label
         htmlFor={`${value}-stars`}

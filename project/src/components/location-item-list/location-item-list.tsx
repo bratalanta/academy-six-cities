@@ -3,7 +3,10 @@ import LocationItem from '../location-item/location-item';
 
 export default function LocationItemList(): JSX.Element {
   return (
-    <div className="tabs">
+    <div
+      className="tabs"
+      data-testid="tabs"
+    >
       <section className="locations container">
         <ul className="locations__list tabs__list">
           {CITIES
